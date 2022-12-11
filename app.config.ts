@@ -14,11 +14,10 @@ export default defineAppConfig({
     // },
     aside: {
       level: 1,
-      // filter: [],
     },
-    // header: {
-    //   showLinkIcon: true
-    // },
+    header: {
+      showLinkIcon: true
+    },
     footer: {
       credits: {
         icon: false,
