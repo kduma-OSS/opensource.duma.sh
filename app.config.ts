@@ -14,9 +14,12 @@ export default defineAppConfig({
     // },
     aside: {
       level: 1,
+      exclude: []
     },
     header: {
-      showLinkIcon: true
+      logo: true,
+      showLinkIcon: true,
+      exclude: []
     },
     footer: {
       credits: {
