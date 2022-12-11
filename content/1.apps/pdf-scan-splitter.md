@@ -1,5 +1,9 @@
 ---
 title: PSS - PDF Scan Splitter
+type: app
+platform: PHP
+active: true
+github: https://github.com/kduma-OSS/CLI-pdf-scan-splitter
 ---
 
 # PSS - PDF Scan Splitter

@@ -1,0 +1,27 @@
+title,platform,active,github
+File Hasher,PHP,1,https://github.com/kduma-OSS/PHP-file-hasher
+File Hasher,C#,1,https://github.com/kduma-OSS/CS-file-hasher
+File Hasher,Python,0,https://github.com/kduma-OSS/PY-file-hasher
+emSzmal Banking API wrapper,PHP,1,https://github.com/kduma-OSS/L5-emSzmal-api
+Laravel SOAP service server,Laravel,1,https://github.com/kduma-OSS/laravel-soap-server
+Laravel 5 helpers for creating content-type negotiable responses,Laravel,1,https://github.com/kduma-OSS/L5-content-negotiable-responses
+Eloquent Tokenable,Laravel,1,https://github.com/kduma-OSS/L5-eloquent-tokenable
+Eloquent UUID-able,Laravel,1,https://github.com/kduma-OSS/L5-eloquent-uuidable
+Eloquent Sluggable,Laravel,1,https://github.com/kduma-OSS/L5-eloquent-sluggable
+Eloquent Encryptable,Laravel,1,https://github.com/kduma-OSS/L5-eloquent-encryptable
+Diceware pass phrase generator,Laravel,1,https://github.com/kduma-OSS/L5-passphrase-generator
+Bulk PDF Document Generator,PHP,1,https://github.com/kduma-OSS/PHP-bulk-generator
+PDF Imposition Toolkit,PHP,1,https://github.com/kduma-OSS/PHP-pdf-imposition
+Signed Document,PHP,1,https://github.com/kduma-OSS/PHP-signed-document
+An SMS sender for Laravel with Notification Channel,Laravel,1,https://github.com/kduma-OSS/L5-SMS
+An SerwerSMS.pl driver for kduma/sms package,Laravel,1,https://github.com/kduma-OSS/L5-SMS-Driver-SerwerSMS
+An JustSend.pl driver for kduma/sms package,Laravel,1,https://github.com/kduma-OSS/L5-SMS-Driver-JustSend
+Polish Validation rules for Laravel Validator,Laravel,1,https://github.com/kduma-OSS/L5-polish-validator-rules
+Partial Key Verification Compact Framework,C#,1,https://github.com/kduma-OSS/CS-Partial-Key-Verification-Compact-Framework
+PHP and Laravel 5 CoinHive API and Captcha,PHP & Laravel,0,https://github.com/kduma-OSS/LV-CoinHive-api
+PHP LPD Client and Server,PHP,1,https://github.com/kduma-OSS/PHP-LPD
+Eloquent GUID-able,Laravel,0,https://github.com/kduma-OSS/LV-eloquent-guidable
+C# Raw Printing helper for dot matrix and thermal printers.,C#,1,https://github.com/kduma-OSS/CS-Raw-Printer
+Simple package to provide Roles and Permissions to Laravel,Laravel,0,https://github.com/kduma-OSS/LV-permissions
+Laravel command to create/fill missing fields in .env file based on rules in .env.example file.,Laravel,0,https://github.com/kduma-OSS/LV-dotenv-filler
+Laravel queue runner for webcron (with runtime limit),Laravel,0,https://github.com/kduma-OSS/LV-cron
