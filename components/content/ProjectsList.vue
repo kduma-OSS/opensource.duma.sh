@@ -93,6 +93,7 @@ export default {
 
     unified = collect([list, items])
       .flatten(1)
+      .sortBy('title')
       .groupBy((item, key) => (item.active == '1') ? 'active' : 'deprecated');
 
 
