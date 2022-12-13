@@ -2,7 +2,7 @@ export default defineAppConfig({
   docus: {
     title: 'opensource.duma.sh',
     description: 'Open Source Software by Krystian Duma',
-    // url: 'http://docus.dev',
+    url: 'https://opensource.duma.sh/',
     // image: '/social-card-preview.png',
     socials: {
       github: 'kduma-oss',
@@ -13,11 +13,11 @@ export default defineAppConfig({
     //   contributors: true
     // },
     aside: {
-      level: 1,
+      level: 0,
       exclude: []
     },
     header: {
-      logo: true,
+      logo: false,
       showLinkIcon: true,
       exclude: []
     },
