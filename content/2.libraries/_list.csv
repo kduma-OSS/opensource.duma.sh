@@ -5,7 +5,6 @@ File Hasher,Python,0,https://github.com/kduma-OSS/PY-file-hasher,,,
 emSzmal Banking API wrapper,PHP,1,https://github.com/kduma-OSS/L5-emSzmal-api,,,
 Laravel SOAP service server,Laravel,1,https://github.com/kduma-OSS/laravel-soap-server,,,
 Laravel 5 helpers for creating content-type negotiable responses,Laravel,1,https://github.com/kduma-OSS/L5-content-negotiable-responses,1,Laravel helpers for creating content-type negotiable responses,material-symbols:merge-type
-Eloquent Tokenable,Laravel,1,https://github.com/kduma-OSS/L5-eloquent-tokenable,,,
 Eloquent Sluggable,Laravel,1,https://github.com/kduma-OSS/L5-eloquent-sluggable,,,
 Eloquent Encryptable,Laravel,1,https://github.com/kduma-OSS/L5-eloquent-encryptable,,,
 Diceware pass phrase generator,Laravel,1,https://github.com/kduma-OSS/L5-passphrase-generator,,,
