@@ -94,7 +94,7 @@ export default {
     unified = collect([list, items])
       .flatten(1)
       .sortBy('title')
-      .groupBy((item, key) => (item.active == '1') ? 'active' : 'deprecated');
+      .groupBy((item, key) => (item.active == '1' || item.active == true || item.active == undefined) ? 'active' : 'deprecated');
 
 
     let active = unified.get('active', collect()).groupBy('platform').sortKeysDesc().all();
