@@ -19,19 +19,25 @@ Eases using and generating guid's in Laravel Eloquent models.
 # Setup
 Add the package to the require section of your composer.json and run `composer update`
 
-    "kduma/eloquent-guidable": "^1.1"
+```json
+"kduma/eloquent-guidable": "^1.1"
+```
 
 # Prepare models
 Inside your model (not on top of file) add following lines:
 
-    use \KDuma\Eloquent\Guidable;
+```php
+use \KDuma\Eloquent\Guidable;
+```
 
 In database create `guid` string field. If you use migrations, you can use following snippet:
 
-    $table->string('guid')->unique();
+```php
+$table->string('guid')->unique();
+```
 
 # Usage
 By default it generates slug on first save.
 
-- `$model->newGuid()` - Generate new guid. (Remember to save it by yourself)
-- `Model::whereGuid($slug)->first()` - Find by guid. (`whereGuid` is query scope)
+- `$model->newGuid()`{lang="php"} - Generate new guid. (Remember to save it by yourself)
+- `Model::whereGuid($slug)->first()`{lang="php"} - Find by guid. (`whereGuid` is query scope)

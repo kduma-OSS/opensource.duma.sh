@@ -19,7 +19,7 @@ PHP and Laravel 5 CoinHive API and Captcha
 Via Composer
 
 ```bash
-$ composer require kduma/coinhive-api
+composer require kduma/coinhive-api
 ```
 
 ## Usage
@@ -46,7 +46,9 @@ $api->verifyToken($token, $hashes = 256);
 In Laravel 5.5, service provider is automatically discovered. If you don't use package discovery,
 add the Service Provider to the providers array in `config/app.php`:
 
-    KDuma\CoinHive\Laravel\CoinHiveServiceProvider::class,
+```php
+KDuma\CoinHive\Laravel\CoinHiveServiceProvider::class,
+```
 
 Add following entries to your `.env` file:
 
@@ -56,12 +58,14 @@ Add following entries to your `.env` file:
 
 Add following entries to your `config\services.php` file:
 
+```php
     'coinhive' => [
         'default_hashes' => env('COINHIVE_DEFAULT_HASHES_COUNT', 512),
         'site_key' => env('COINHIVE_SITE_KEY'),
         'secret_key' => env('COINHIVE_SECRET_KEY'),
         'use_authedmine_url' => true,
     ],
+```
 
 ### Usage
 You can resolve `CoinHiveApi::class` class:

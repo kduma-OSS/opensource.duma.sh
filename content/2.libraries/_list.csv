@@ -17,7 +17,6 @@ An JustSend.pl driver for kduma/sms package,Laravel,1,https://github.com/kduma-O
 Polish Validation rules for Laravel Validator,Laravel,1,https://github.com/kduma-OSS/L5-polish-validator-rules,,,
 Partial Key Verification Compact Framework,C#,1,https://github.com/kduma-OSS/CS-Partial-Key-Verification-Compact-Framework,,,
 PHP LPD Client and Server,PHP,1,https://github.com/kduma-OSS/PHP-LPD,,,
-C# Raw Printing helper for dot matrix and thermal printers.,C#,1,https://github.com/kduma-OSS/CS-Raw-Printer,,,
 Simple package to provide Roles and Permissions to Laravel,Laravel,0,https://github.com/kduma-OSS/LV-permissions,,,
 Laravel command to create/fill missing fields in .env file based on rules in .env.example file.,Laravel,0,https://github.com/kduma-OSS/LV-dotenv-filler,,,
 Laravel queue runner for webcron (with runtime limit),Laravel,0,https://github.com/kduma-OSS/LV-cron,,,
