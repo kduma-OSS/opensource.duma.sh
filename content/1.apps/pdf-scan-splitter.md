@@ -4,6 +4,9 @@ type: app
 platform: PHP
 active: true
 github: https://github.com/kduma-OSS/CLI-pdf-scan-splitter
+featured: 1
+featured_description: Scanned PDF files splitter and sorter based on barcode
+featured_icon: ic:baseline-call-split
 ---
 
 # PSS - PDF Scan Splitter

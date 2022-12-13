@@ -72,7 +72,7 @@ export default {
       queryContent(props.directory)
           .where({type: props.type})
           .sort({ title: 1, active: -1, _empty: 1 })
-          .only(['_path', '_id', '_draft', '_empty', 'title', 'description', 'type', 'platform', 'active', 'github'])
+          .only(['_path', '_id', '_draft', '_empty', 'title', 'description', 'type', 'platform', 'active', 'github', 'featured'])
           .find(),
 
       queryContent(props.directory, '_list')

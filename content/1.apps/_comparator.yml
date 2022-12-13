@@ -3,3 +3,6 @@ type: app
 platform: PHP
 active: true
 github: https://github.com/kduma-OSS/CLI-comparator
+featured: 3
+featured_description: Batch compare multiple files
+featured_icon: grommet-icons:compare

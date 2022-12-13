@@ -3,3 +3,6 @@ type: app
 platform: C#
 active: true
 github: https://github.com/kduma-OSS/CS-file-hasher
+featured: 2
+featured_description: MD5 and SHA1 file hash calculator and checker
+featured_icon: icon-park-solid:file-hash
