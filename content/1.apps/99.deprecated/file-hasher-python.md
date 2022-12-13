@@ -38,3 +38,8 @@ optional arguments:
   -h, --help  show this help message and exit
   -g, --gui   sum the integers (default: find the max)
 ```
+
+### Interface
+
+![cli.png](/apps/deprecated/file-hasher-python/cli.png)
+![gui.png](/apps/deprecated/file-hasher-python/gui.png)
