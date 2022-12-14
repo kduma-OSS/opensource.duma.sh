@@ -7,11 +7,14 @@ export default defineAppConfig({
     socials: {
       github: 'kduma-oss',
     },
-    // github: {
-    //   root: 'content',
-    //   edit: true,
-    //   contributors: true
-    // },
+    github: {
+      root: 'content',
+      edit: true,
+      contributors: true,
+      owner: 'kduma-oss',
+      repo: 'opensource.duma.sh',
+      branch: 'main',
+    },
     aside: {
       level: 0,
       exclude: []
