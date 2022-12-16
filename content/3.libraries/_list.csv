@@ -2,8 +2,8 @@ title,platform,active,github,featured,featured_description,featured_icon
 File Hasher,PHP,1,https://github.com/kduma-OSS/PHP-file-hasher,,,
 File Hasher,C# & .NET,1,https://github.com/kduma-OSS/CS-file-hasher,,,
 File Hasher,Python,0,https://github.com/kduma-OSS/PY-file-hasher,,,
-emSzmal Banking API wrapper,PHP,1,https://github.com/kduma-OSS/L5-emSzmal-api,,,
-Laravel SOAP service server,Laravel,1,https://github.com/kduma-OSS/laravel-soap-server,,,
+emSzmal Banking API wrapper,PHP & Laravel,1,https://github.com/kduma-OSS/L5-emSzmal-api,5,Easy to use wrapper of emSzmal Banking API,carbon:piggy-bank-slot
+Laravel SOAP service server,Laravel,1,https://github.com/kduma-OSS/laravel-soap-server,4,Simple creation of SOAP Web Services in Laravel,ant-design:api-outlined
 Content Negotiable Responses,Laravel,1,https://github.com/kduma-OSS/L5-content-negotiable-responses,1,Laravel helpers for creating content-type negotiable responses,material-symbols:merge-type
 Eloquent Sluggable,Laravel,1,https://github.com/kduma-OSS/L5-eloquent-sluggable,,,
 Eloquent Encryptable,Laravel,1,https://github.com/kduma-OSS/L5-eloquent-encryptable,,,
@@ -15,7 +15,7 @@ An SMS sender for Laravel with Notification Channel,Laravel,1,https://github.com
 An SerwerSMS.pl driver for kduma/sms package,Laravel,1,https://github.com/kduma-OSS/L5-SMS-Driver-SerwerSMS,,,
 An JustSend.pl driver for kduma/sms package,Laravel,1,https://github.com/kduma-OSS/L5-SMS-Driver-JustSend,,,
 Polish Validation rules for Laravel Validator,Laravel,1,https://github.com/kduma-OSS/L5-polish-validator-rules,,,
-Partial Key Verification Compact Framework,C#,1,https://github.com/kduma-OSS/CS-Partial-Key-Verification-Compact-Framework,,,
+Partial Key Verification Compact Framework,C# & .NET Compact Framework,1,https://github.com/kduma-OSS/CS-Partial-Key-Verification-Compact-Framework,6,Serial number generation scheme for offline key validation,fluent:key-24-regular
 PHP LPD Client and Server,PHP,1,https://github.com/kduma-OSS/PHP-LPD,,,
 Simple package to provide Roles and Permissions to Laravel,Laravel,0,https://github.com/kduma-OSS/LV-permissions,,,
 Laravel command to create/fill missing fields in .env file based on rules in .env.example file.,Laravel,0,https://github.com/kduma-OSS/LV-dotenv-filler,,,
