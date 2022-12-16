@@ -17,7 +17,7 @@
           </template>
           <template v-for="platform in item.platforms">
             &nbsp;
-            <Badge :type="(item.active == 1) ? 'info' : 'danger'">{{ platform }}</Badge>
+            <Badge>{{ platform }}</Badge>
           </template>
           <template v-if="item.github">
             &nbsp;
@@ -55,10 +55,10 @@
           </ProseA>
         </template>
         &nbsp;
-        <Badge :type="(item.active == 1) ? 'info' : 'danger'">{{ item.platform }}</Badge>
+        <Badge type="danger">{{ item.platform }}</Badge>
         <template v-for="platform in item.platforms">
           &nbsp;
-          <Badge :type="(item.active == 1) ? 'info' : 'danger'">{{ platform }}</Badge>
+          <Badge type="danger">{{ platform }}</Badge>
         </template>
         <template v-if="item.github">
           &nbsp;
