@@ -25,6 +25,19 @@
               <Icon name="bxl:github"/>
             </a>
           </template>
+          <template v-if="item.featured">
+            &nbsp;
+            <Icon name="ic:outline-star-border"/>
+          </template>
+          <template v-if="item.system">
+            &nbsp;
+            <template v-if="item.system_url">
+              (part of <ProseA :href="item.system_url" v-if="item.system_url">{{ item.system }}</ProseA>)
+            </template>
+            <template v-else>
+              (part of {{ item.system }})
+            </template>
+          </template>
         </ProseLi>
       </ProseUl>
     </ProseLi>
@@ -52,6 +65,10 @@
           <a :href="item.github" target="_blank">
             <Icon name="bxl:github"/>
           </a>
+        </template>
+        <template v-if="item.featured">
+          &nbsp;
+          <Icon name="ic:outline-star-border"/>
         </template>
       </ProseLi>
     </ProseUl>
@@ -82,7 +99,7 @@ export default {
       queryContent()
           .where({type: props.type})
           .sort({ title: 1, active: -1, _empty: 1 })
-          .only(['_path', '_id', '_draft', '_empty', 'title', 'description', 'type', 'platform', 'active', 'github', 'featured', 'list_title'])
+          .only(['_path', '_id', '_draft', '_empty', 'title', 'description', 'type', 'platform', 'active', 'github', 'featured', 'list_title', 'system', 'system_url'])
           .find(),
 
       queryContent(props.directory, '_list')
