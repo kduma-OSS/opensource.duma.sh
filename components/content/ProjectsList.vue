@@ -15,6 +15,10 @@
               {{ item.title }}
             </ProseA>
           </template>
+          <template v-for="platform in item.platforms">
+            &nbsp;
+            <Badge :type="(item.active == 1) ? 'info' : 'danger'">{{ platform }}</Badge>
+          </template>
           <template v-if="item.github">
             &nbsp;
             <a :href="item.github" target="_blank">
@@ -39,6 +43,10 @@
         </template>
         &nbsp;
         <Badge :type="(item.active == 1) ? 'info' : 'danger'">{{ item.platform }}</Badge>
+        <template v-for="platform in item.platforms">
+          &nbsp;
+          <Badge :type="(item.active == 1) ? 'info' : 'danger'">{{ platform }}</Badge>
+        </template>
         <template v-if="item.github">
           &nbsp;
           <a :href="item.github" target="_blank">
@@ -53,6 +61,8 @@
 <script>
 
 import {collect} from "collect.js";
+import explode from "locutus/php/strings/explode";
+import array_slice from "locutus/php/array/array_slice";
 
 export default {
   name: "ProjectsList",
@@ -96,6 +106,10 @@ export default {
       .map((row) => {
         if(row.list_title)
           row.title = row.list_title;
+
+        row.platforms = explode(' & ', row.platform);
+        row.platform = row.platforms[0]
+        row.platforms = array_slice(row.platforms, 1)
 
         return row;
       })
