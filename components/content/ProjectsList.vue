@@ -4,7 +4,7 @@
     <ProseLi v-for="(items, platform) in active">
       Platform
       &nbsp;
-      <Badge :type="info">{{ platform }}</Badge>
+      <Badge>{{ platform }}</Badge>
       <ProseUl>
         <ProseLi v-for="item in items">
           <template v-if="item._empty ?? true">
@@ -93,6 +93,12 @@ export default {
 
     unified = collect([list, items])
       .flatten(1)
+      .map((row) => {
+        if(row.list_title)
+          row.title = row.list_title;
+
+        return row;
+      })
       .sortBy('title')
       .groupBy((item, key) => (item.active == '1' || item.active == true || item.active == undefined) ? 'active' : 'deprecated');
 

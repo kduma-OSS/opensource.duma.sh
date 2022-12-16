@@ -81,6 +81,12 @@ export default {
 
     featured = collect([list, items])
       .flatten(1)
+      .map((row) => {
+        if(row.list_title)
+          row.title = row.list_title;
+
+        return row;
+      })
       .where('featured')
       .sortBy('featured');
 
