@@ -25,7 +25,7 @@
       </ProseUl>
     </ProseLi>
   </ProseUl>
-  <template v-if="deprecated">
+  <template v-if="deprecated.length">
     <ProseH2 id="deprecated">Deprecated</ProseH2>
     <ProseUl>
       <ProseLi v-for="item in deprecated">
