@@ -15,7 +15,6 @@ An SMS sender for Laravel with Notification Channel,Laravel,1,https://github.com
 An SerwerSMS.pl driver for kduma/sms package,Laravel,1,https://github.com/kduma-OSS/L5-SMS-Driver-SerwerSMS,,,
 An JustSend.pl driver for kduma/sms package,Laravel,1,https://github.com/kduma-OSS/L5-SMS-Driver-JustSend,,,
 Polish Validation rules for Laravel Validator,Laravel,1,https://github.com/kduma-OSS/L5-polish-validator-rules,,,
-Partial Key Verification Compact Framework,C# & .NET Compact Framework,1,https://github.com/kduma-OSS/CS-Partial-Key-Verification-Compact-Framework,6,Serial number generation scheme for offline key validation,fluent:key-24-regular
 PHP LPD Client and Server,PHP,1,https://github.com/kduma-OSS/PHP-LPD,,,
 Simple package to provide Roles and Permissions to Laravel,Laravel,0,https://github.com/kduma-OSS/LV-permissions,,,
 Laravel command to create/fill missing fields in .env file based on rules in .env.example file.,Laravel,0,https://github.com/kduma-OSS/LV-dotenv-filler,,,
