@@ -10,7 +10,8 @@
   },
   "devDependencies": {
     "@nuxt-themes/docus": "1.1.8",
-    "nuxt": "^3.0.0",
-    "collect.js": "^4.34.3"
+    "collect.js": "^4.34.3",
+    "locutus": "^2.0.16",
+    "nuxt": "^3.0.0"
   }
 }
