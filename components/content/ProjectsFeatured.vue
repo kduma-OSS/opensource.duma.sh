@@ -26,6 +26,7 @@
             <Icon name="bxl:github"/>
           </a>
         </template>
+        <template v-else />
       </template>
       <template #description>
         {{ item.featured_description }}
