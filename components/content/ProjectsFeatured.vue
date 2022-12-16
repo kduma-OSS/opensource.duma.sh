@@ -64,18 +64,18 @@ export default {
           .find(),
 
       queryContent(props.directory, '_list')
-          .findOne()
+          .find()
     ]);
 
-    list = collect(list.body ?? [])
+    list = collect(list.length ? list[0].body : [])
       .map((row) => {
-        row._entryType = 'file'
+        row._entryType = 'list'
         return row;
       });
 
     items = collect(items ?? [])
       .map((row) => {
-        row._entryType = 'list'
+        row._entryType = 'file'
         return row;
       });
 
