@@ -1,4 +1,4 @@
-  ---
+---
 title: Eloquent ULID-able
 description: Eases using and generating ulid's in Laravel Eloquent models.
 type: library
