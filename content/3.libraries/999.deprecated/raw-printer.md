@@ -3,6 +3,7 @@ title: Raw Printer tools for C#
 description: C# Raw Printing helper for dot matrix and thermal printers.
 type: library
 platform: C# & .NET Framework
+active: false
 github: https://github.com/kduma-OSS/CS-Raw-Printer
 ---
 
@@ -18,7 +19,9 @@ github: https://github.com/kduma-OSS/CS-Raw-Printer
 
 Download `RawPrinter.dll` library from [GitHub Releases](https://github.com/kduma-OSS/CS-Raw-Printer/releases/latest) and add it to a project as a dependency.
 
-
+::note
+Due to usage of .NET Framework and Windows specific API's, this project is considered deprecated
+::
 
 ## Usage
 ``` csharp
