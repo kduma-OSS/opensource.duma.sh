@@ -44,6 +44,51 @@ const config: CapacitorConfig = {
 export default config;
 ```
 
+## Example Usage
+
+You can interact with the printer in two ways:
+
+1. You can build the prints procedurally using method calls. It's ideal for smaller printouts and in new projects.
+2. Or you can print by sending commands from a subset of ESC/POS print language - it's ideal for larger documents, legacy applications or when receiving whole printouts from a remote server.
+
+### Example 1 - Printing using built-in methods
+```typescript
+SunmiPrinter.enterPrinterBuffer();
+
+SunmiPrinter.setFontSize({ size: 35 });
+SunmiPrinter.setBold({ enable: true });
+SunmiPrinter.setAlignment({ alignment: AlignmentModeEnum.LEFT });
+SunmiPrinter.printText({ text: "This is an\n" });
+
+SunmiPrinter.setFontSize({ size: 65 });
+SunmiPrinter.setBold({ enable: false });
+SunmiPrinter.setAlignment({ alignment: AlignmentModeEnum.CENTER });
+SunmiPrinter.setAntiWhitePrintStyle({ enable: true });
+SunmiPrinter.printText({ text: "EXAMPLE\n" });
+
+SunmiPrinter.setFontSize({ size: 30 });
+SunmiPrinter.setAlignment({ alignment: AlignmentModeEnum.RIGHT });
+SunmiPrinter.setAntiWhitePrintStyle({ enable: false });
+SunmiPrinter.printText({ text: "of a SunmiPrinter plugin\n" });
+
+SunmiPrinter.setAlignment({ alignment: AlignmentModeEnum.CENTER });
+SunmiPrinter.printBarCode({ content: "1234567890", symbology: BarcodeSymbologyEnum.CODE_128, height: 100, width: 2, text_position: BarcodeTextPositionEnum.BELOW });
+
+SunmiPrinter.cutPaper(); // or SunmiPrinter.lineWrap({lines: 3});
+
+SunmiPrinter.exitPrinterBuffer();
+```
+
+### Example 2 - Printing already prepared ESC/POS commands
+```typescript
+SunmiPrinter.enterPrinterBuffer();
+
+const escpos = "\u001b@\u001ba\u0001\u001d!\u0011Hello\n\u001bE\u0001\u001d!\u0010SunmiPrinter\n\u001bE\u0000\u001d!\u0013EXAMPLE\n\u001d!\u0000\u001bE\u0001plugin\n\n\n\n\u001bE\u0000";
+SunmiPrinter.sendRAWData({data: escpos});
+
+SunmiPrinter.exitPrinterBuffer();
+```
+
 ## API
 ::note
 Latest API documentation can be found in readme file on [GitHub](https://github.com/kduma-autoid/capacitor-sunmi-printer/blob/main/README.md)
@@ -81,6 +126,8 @@ Latest API documentation can be found in readme file on [GitHub](https://github.
 * [`setLineSpacingPrintStyle(...)`](#setlinespacingprintstyle)
 * [`setLeftSpacingPrintStyle(...)`](#setleftspacingprintstyle)
 * [`setStrikethroughStylePrintStyle(...)`](#setstrikethroughstyleprintstyle)
+* [`SetLeftMargin(...)`](#setleftmargin)
+* [`SetPrintingAreaWidth(...)`](#setprintingareawidth)
 * [`getPrinterMode()`](#getprintermode)
 * [`isLabelMode()`](#islabelmode)
 * [`getPrinterBBMDistance()`](#getprinterbbmdistance)
@@ -130,6 +177,9 @@ Latest API documentation can be found in readme file on [GitHub](https://github.
 * [`sendLCDBarcode(...)`](#sendlcdbarcode)
 * [`labelLocate()`](#labellocate)
 * [`labelOutput()`](#labeloutput)
+* [`addListener('onPrinterStatusUpdated', ...)`](#addlisteneronprinterstatusupdated-)
+* [`removeAllListeners()`](#removealllisteners)
+* [Interfaces](#interfaces)
 * [Enums](#enums)
 
 </docgen-index>
@@ -585,6 +635,36 @@ Sets strikethrough style print style
 | Param         | Type                            |
 | ------------- | ------------------------------- |
 | **`options`** | <code>{ value: number; }</code> |
+
+--------------------
+
+
+### SetLeftMargin(...)
+
+```typescript
+SetLeftMargin(options: { width: number; }) => Promise<void>
+```
+
+Sets the left margin
+
+| Param         | Type                            |
+| ------------- | ------------------------------- |
+| **`options`** | <code>{ width: number; }</code> |
+
+--------------------
+
+
+### SetPrintingAreaWidth(...)
+
+```typescript
+SetPrintingAreaWidth(options: { width: number; }) => Promise<void>
+```
+
+Set printing area width
+
+| Param         | Type                            |
+| ------------- | ------------------------------- |
+| **`options`** | <code>{ width: number; }</code> |
 
 --------------------
 
@@ -1482,6 +1562,45 @@ Output the label to the paper cutting position
 --------------------
 
 
+### addListener('onPrinterStatusUpdated', ...)
+
+```typescript
+addListener(eventName: 'onPrinterStatusUpdated', listenerFunc: (event: { status: PrinterStatusEventEnum; broadcast?: string; }) => void) => Promise<PluginListenerHandle>
+```
+
+Listens for printer status changed events.
+
+| Param              | Type                                                                                                                           |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
+| **`eventName`**    | <code>'onPrinterStatusUpdated'</code>                                                                                          |
+| **`listenerFunc`** | <code>(event: { status: <a href="#printerstatuseventenum">PrinterStatusEventEnum</a>; broadcast?: string; }) =&gt; void</code> |
+
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+
+--------------------
+
+
+### removeAllListeners()
+
+```typescript
+removeAllListeners() => Promise<void>
+```
+
+Removes all listeners
+
+--------------------
+
+
+### Interfaces
+
+
+#### PluginListenerHandle
+
+| Prop         | Type                                      |
+| ------------ | ----------------------------------------- |
+| **`remove`** | <code>() =&gt; Promise&lt;void&gt;</code> |
+
+
 ### Enums
 
 
@@ -1499,18 +1618,18 @@ Output the label to the paper cutting position
 
 | Members                       | Value                                |
 | ----------------------------- | ------------------------------------ |
-| **`NORMAL_OPERATION`**        | <code>"NormalOperation"</code>       |
-| **`UNDER_PREPARATION`**       | <code>"UnderPreparation"</code>      |
-| **`ABNORMAL_COMMUNICATION`**  | <code>"AbnormalCommunication"</code> |
-| **`OUT_OF_PAPER`**            | <code>"OutOfPaper"</code>            |
-| **`OVERHEATED`**              | <code>"Overheated"</code>            |
-| **`COVER_IS_OPEN`**           | <code>"CoverIsOpen"</code>           |
-| **`CUTTER_ERROR`**            | <code>"CutterError"</code>           |
-| **`CUTTER_RECOVERED`**        | <code>"CutterRecovered"</code>       |
-| **`BLACK_MARK_NOT_DETECTED`** | <code>"BlackMarkNotDetected"</code>  |
-| **`PRINTER_NOT_DETECTED`**    | <code>"PrinterNotDetected"</code>    |
-| **`FIRMWARE_UPDATE_FAILED`**  | <code>"FirmwareUpdateFailed"</code>  |
-| **`UNKNOWN`**                 | <code>"Unknown"</code>               |
+| **`NORMAL_OPERATION`**        | <code>'NormalOperation'</code>       |
+| **`UNDER_PREPARATION`**       | <code>'UnderPreparation'</code>      |
+| **`ABNORMAL_COMMUNICATION`**  | <code>'AbnormalCommunication'</code> |
+| **`OUT_OF_PAPER`**            | <code>'OutOfPaper'</code>            |
+| **`OVERHEATED`**              | <code>'Overheated'</code>            |
+| **`COVER_IS_OPEN`**           | <code>'CoverIsOpen'</code>           |
+| **`CUTTER_ERROR`**            | <code>'CutterError'</code>           |
+| **`CUTTER_RECOVERED`**        | <code>'CutterRecovered'</code>       |
+| **`BLACK_MARK_NOT_DETECTED`** | <code>'BlackMarkNotDetected'</code>  |
+| **`PRINTER_NOT_DETECTED`**    | <code>'PrinterNotDetected'</code>    |
+| **`FIRMWARE_UPDATE_FAILED`**  | <code>'FirmwareUpdateFailed'</code>  |
+| **`UNKNOWN`**                 | <code>'Unknown'</code>               |
 
 
 #### PrinterStyleKeysEnum
@@ -1627,5 +1746,25 @@ Output the label to the paper cutting position
 | **`CODE_93`**  | <code>"CODE_93"</code>  |
 | **`CODE_128`** | <code>"CODE_128"</code> |
 | **`QR_CODE`**  | <code>"QR_CODE"</code>  |
+
+
+#### PrinterStatusEventEnum
+
+| Members                       | Value                               | Description                                                                                                      |
+| ----------------------------- | ----------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| **`UNDER_PREPARATION`**       | <code>"UnderPreparation"</code>     | Printer is under preparation. see `woyou.aidlservice.jiuv5.INIT_ACTION` in documentation.                        |
+| **`NORMAL_OPERATION`**        | <code>"NormalOperation"</code>      | Printing is ready. see `woyou.aidlservice.jiuv5.NORMAL_ACTION` in documentation.                                 |
+| **`PRINTING_ERROR`**          | <code>"PrintingError"</code>        | Printing error. see `woyou.aidlservice.jiuv5.ERROR_ACTION` in documentation.                                     |
+| **`OUT_OF_PAPER`**            | <code>"OutOfPaper"</code>           | Out of paper. see `woyou.aidlservice.jiuv5.OUT_OF_PAPER_ACTION` in documentation.                                |
+| **`OVERHEATED`**              | <code>"Overheated"</code>           | Printhead is overheated. see `woyou.aidlservice.jiuv5.OVER_HEATING_ACITON` in documentation.                     |
+| **`NORMAL_HEAT`**             | <code>"NormalHeat"</code>           | Printhead temperature back to normal. see `woyou.aidlservice.jiuv5.NORMAL_HEATING_ACITON` in documentation.      |
+| **`COVER_IS_OPEN`**           | <code>"CoverIsOpen"</code>          | Cover open. see `woyou.aidlservice.jiuv5.COVER_OPEN_ACTION` in documentation.                                    |
+| **`COVER_ERROR`**             | <code>"CoverError"</code>           | Cover closing exception. see `woyou.aidlservice.jiuv5.COVER_ERROR_ACTION` in documentation.                      |
+| **`CUTTER_ERROR`**            | <code>"CutterError"</code>          | Cutter exception 1 – cutter stuck. see `woyou.aidlservice.jiuv5.KNIFE_ERROR_ACTION_1` in documentation.          |
+| **`CUTTER_RECOVERED`**        | <code>"CutterRecovered"</code>      | Cutter exception 2 – cutter back to normal. see `woyou.aidlservice.jiuv5.KNIFE_ERROR_ACTION_2` in documentation. |
+| **`FIRMWARE_UPDATING`**       | <code>"FirmwareUpdating"</code>     | Printer firmware updating. see `woyou.aidlservice.jiuv5.FIRMWARE_UPDATING_ACITON` in documentation.              |
+| **`FIRMWARE_UPDATE_FAILED`**  | <code>"FirmwareUpdateFailed"</code> | Printer firmware updating failed. see `woyou.aidlservice.jiuv5.FIRMWARE_FAILURE_ACITON` in documentation.        |
+| **`PRINTER_NOT_DETECTED`**    | <code>"PrinterNotDetected"</code>   | Printer not detected. see `woyou.aidlservice.jiuv5.PRINTER_NON_EXISTENT_ACITON` in documentation.                |
+| **`BLACK_MARK_NOT_DETECTED`** | <code>"BlackMarkNotDetected"</code> | Black mark not detected. see `woyou.aidlservice.jiuv5.BLACKLABEL_NON_EXISTENT_ACITON` in documentation.          |
 
 </docgen-api>

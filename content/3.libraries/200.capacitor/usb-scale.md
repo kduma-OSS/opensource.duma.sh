@@ -34,11 +34,15 @@ Latest API documentation can be found in readme file on [GitHub](https://github.
 
 * [`enumerateDevices()`](#enumeratedevices)
 * [`requestPermission(...)`](#requestpermission)
+* [`hasPermission(...)`](#haspermission)
 * [`open(...)`](#open)
-* [`stop()`](#stop)
-* [`setIncomingWeightDataCallback(...)`](#setincomingweightdatacallback)
-* [`clearIncomingWeightDataCallback()`](#clearincomingweightdatacallback)
-* [Type Aliases](#type-aliases)
+* [`close()`](#close)
+* [`addListener('onRead', ...)`](#addlisteneronread)
+* [`addListener('onScaleConnected', ...)`](#addlisteneronscaleconnected)
+* [`addListener('onScaleDisconnected', ...)`](#addlisteneronscaledisconnected)
+* [`removeAllListeners()`](#removealllisteners)
+* [Interfaces](#interfaces)
+* [Enums](#enums)
 
 </docgen-index>
 
@@ -48,12 +52,12 @@ Latest API documentation can be found in readme file on [GitHub](https://github.
 ### enumerateDevices()
 
 ```typescript
-enumerateDevices() => Promise<{ devices: USBDevice[]; }>
+enumerateDevices() => Promise<EnumerateDevicesResponse>
 ```
 
 Get a list of all connected compatible USB scale devices
 
-**Returns:** <code>Promise&lt;{ devices: USBDevice[]; }&gt;</code>
+**Returns:** <code>Promise&lt;<a href="#enumeratedevicesresponse">EnumerateDevicesResponse</a>&gt;</code>
 
 --------------------
 
@@ -61,16 +65,33 @@ Get a list of all connected compatible USB scale devices
 ### requestPermission(...)
 
 ```typescript
-requestPermission(device?: string | undefined) => Promise<{ status: boolean; }>
+requestPermission(options?: RequestPermissionOptions | undefined) => Promise<void>
 ```
 
 Request permission to access the USB scale device
 
-| Param        | Type                | Description                                                                            |
-| ------------ | ------------------- | -------------------------------------------------------------------------------------- |
-| **`device`** | <code>string</code> | The device to request permission for. If not specified, the first device will be used. |
+Throws an error if permission is denied
 
-**Returns:** <code>Promise&lt;{ status: boolean; }&gt;</code>
+| Param         | Type                                                                          |
+| ------------- | ----------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#requestpermissionoptions">RequestPermissionOptions</a></code> |
+
+--------------------
+
+
+### hasPermission(...)
+
+```typescript
+hasPermission(options?: HasPermissionOptions | undefined) => Promise<HasPermissionResponse>
+```
+
+Check if app has permission to access the USB scale device
+
+| Param         | Type                                                                  |
+| ------------- | --------------------------------------------------------------------- |
+| **`options`** | <code><a href="#haspermissionoptions">HasPermissionOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#haspermissionresponse">HasPermissionResponse</a>&gt;</code>
 
 --------------------
 
@@ -78,22 +99,24 @@ Request permission to access the USB scale device
 ### open(...)
 
 ```typescript
-open(device?: string | undefined) => Promise<void>
+open(options?: OpenOptions | undefined) => Promise<void>
 ```
 
 Open the USB scale device for data reading
 
-| Param        | Type                | Description                                                          |
-| ------------ | ------------------- | -------------------------------------------------------------------- |
-| **`device`** | <code>string</code> | The device to open. If not specified, the first device will be used. |
+Throws an error if the device is not connected or permission is denied
+
+| Param         | Type                                                |
+| ------------- | --------------------------------------------------- |
+| **`options`** | <code><a href="#openoptions">OpenOptions</a></code> |
 
 --------------------
 
 
-### stop()
+### close()
 
 ```typescript
-stop() => Promise<void>
+close() => Promise<void>
 ```
 
 Close the USB scale device
@@ -101,56 +124,166 @@ Close the USB scale device
 --------------------
 
 
-### setIncomingWeightDataCallback(...)
+### addListener('onRead', ...)
 
 ```typescript
-setIncomingWeightDataCallback(callback: (data: ScaleRead) => void) => Promise<CallbackID>
+addListener(eventName: 'onRead', listenerFunc: (event: OnReadEvent) => void) => Promise<PluginListenerHandle>
 ```
 
-Sets a callback to be called when the scale sends data.
-If callback is not set, there will bi raised an `usb_scale_read` event.
+Event emitted when the scale sends data
 
-| Param          | Type                                                               | Description                                          |
-| -------------- | ------------------------------------------------------------------ | ---------------------------------------------------- |
-| **`callback`** | <code>(data: <a href="#scaleread">ScaleRead</a>) =&gt; void</code> | The callback to be called when the scale sends data. |
+| Param              | Type                                                                    |
+| ------------------ | ----------------------------------------------------------------------- |
+| **`eventName`**    | <code>'onRead'</code>                                                   |
+| **`listenerFunc`** | <code>(event: <a href="#onreadevent">OnReadEvent</a>) =&gt; void</code> |
 
-**Returns:** <code>Promise&lt;string&gt;</code>
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
 --------------------
 
 
-### clearIncomingWeightDataCallback()
+### addListener('onScaleConnected', ...)
 
 ```typescript
-clearIncomingWeightDataCallback() => Promise<void>
+addListener(eventName: 'onScaleConnected', listenerFunc: (event: OnScaleConnectedEvent) => void) => Promise<PluginListenerHandle>
 ```
 
-Clears the callback set by `setIncomingWeightDataCallback`.
+Event emitted when a compatible USB scale device is connected.
+
+| Param              | Type                                                                                        |
+| ------------------ | ------------------------------------------------------------------------------------------- |
+| **`eventName`**    | <code>'onScaleConnected'</code>                                                             |
+| **`listenerFunc`** | <code>(event: <a href="#onscaleconnectedevent">OnScaleConnectedEvent</a>) =&gt; void</code> |
+
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
 --------------------
 
 
-### Type Aliases
+### addListener('onScaleDisconnected', ...)
+
+```typescript
+addListener(eventName: 'onScaleDisconnected', listenerFunc: (event: OnScaleDisconnectedEvent) => void) => Promise<PluginListenerHandle>
+```
+
+Event emitted when a compatible USB scale device is disconnected.
+
+| Param              | Type                                                                                              |
+| ------------------ | ------------------------------------------------------------------------------------------------- |
+| **`eventName`**    | <code>'onScaleDisconnected'</code>                                                                |
+| **`listenerFunc`** | <code>(event: <a href="#onscaledisconnectedevent">OnScaleDisconnectedEvent</a>) =&gt; void</code> |
+
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+
+--------------------
+
+
+### removeAllListeners()
+
+```typescript
+removeAllListeners() => Promise<void>
+```
+
+Removes all listeners
+
+--------------------
+
+
+### Interfaces
+
+
+#### EnumerateDevicesResponse
+
+| Prop          | Type                     |
+| ------------- | ------------------------ |
+| **`devices`** | <code>USBDevice[]</code> |
 
 
 #### USBDevice
 
-<code>{ id: string, vid: number, pid: number, serial?: string, product: { manufacturer: string, name: string } }</code>
+| Prop          | Type                                                 |
+| ------------- | ---------------------------------------------------- |
+| **`id`**      | <code>string</code>                                  |
+| **`vid`**     | <code>number</code>                                  |
+| **`pid`**     | <code>number</code>                                  |
+| **`serial`**  | <code>string</code>                                  |
+| **`product`** | <code>{ manufacturer: string; name: string; }</code> |
 
 
-#### ScaleRead
+#### RequestPermissionOptions
 
-<code>{ data: number[], weight: number, status: <a href="#scalestatus">ScaleStatus</a> }</code>
+| Prop            | Type                | Description                                                                            |
+| --------------- | ------------------- | -------------------------------------------------------------------------------------- |
+| **`device_id`** | <code>string</code> | The device to request permission for. If not specified, the first device will be used. |
+
+
+#### HasPermissionResponse
+
+| Prop             | Type                 | Description                                                   |
+| ---------------- | -------------------- | ------------------------------------------------------------- |
+| **`permission`** | <code>boolean</code> | Whether the app has permission to access the USB scale device |
+
+
+#### HasPermissionOptions
+
+| Prop            | Type                | Description                                                                          |
+| --------------- | ------------------- | ------------------------------------------------------------------------------------ |
+| **`device_id`** | <code>string</code> | The device to check permission for. If not specified, the first device will be used. |
+
+
+#### OpenOptions
+
+| Prop            | Type                | Description                                                          |
+| --------------- | ------------------- | -------------------------------------------------------------------- |
+| **`device_id`** | <code>string</code> | The device to open. If not specified, the first device will be used. |
+
+
+#### PluginListenerHandle
+
+| Prop         | Type                                      |
+| ------------ | ----------------------------------------- |
+| **`remove`** | <code>() =&gt; Promise&lt;void&gt;</code> |
+
+
+#### OnReadEvent
+
+| Prop         | Type                                                |
+| ------------ | --------------------------------------------------- |
+| **`data`**   | <code>number[]</code>                               |
+| **`weight`** | <code>number</code>                                 |
+| **`status`** | <code><a href="#scalestatus">ScaleStatus</a></code> |
+
+
+#### OnScaleConnectedEvent
+
+| Prop         | Type                                            |
+| ------------ | ----------------------------------------------- |
+| **`device`** | <code><a href="#usbdevice">USBDevice</a></code> |
+
+
+#### OnScaleDisconnectedEvent
+
+| Prop         | Type                                            |
+| ------------ | ----------------------------------------------- |
+| **`device`** | <code><a href="#usbdevice">USBDevice</a></code> |
+
+
+### Enums
 
 
 #### ScaleStatus
 
-<code>"Fault" | "Zero" | "InMotion" | "Stable" | "UnderZero" | "OverWeight" | "NeedCalibration" | "NeedZeroing" | "Unknown"</code>
-
-
-#### CallbackID
-
-<code>string</code>
+| Members               | Value                           |
+| --------------------- | ------------------------------- |
+| **`Fault`**           | <code>"fault"</code>            |
+| **`Zero`**            | <code>"zero"</code>             |
+| **`InMotion`**        | <code>"in-motion"</code>        |
+| **`Stable`**          | <code>"stable"</code>           |
+| **`UnderZero`**       | <code>"under-zero"</code>       |
+| **`OverWeight`**      | <code>"over-weight"</code>      |
+| **`NeedCalibration`** | <code>"need-calibration"</code> |
+| **`NeedZeroing`**     | <code>"need-zeroing"</code>     |
+| **`Unknown`**         | <code>"unknown"</code>          |
 
 </docgen-api>
 
