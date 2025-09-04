@@ -4,6 +4,9 @@ description: This package makes it easy to aautomaticallly negotiate content bas
 type: library
 platform: Laravel
 github: https://github.com/kduma-OSS/LV-content-negotiable-responses
+featured: 1
+featured_description: Laravel helpers for creating content-type negotiable responses
+featured_icon: material-symbols:merge-type
 ---
 
 ::u-button-group

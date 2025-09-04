@@ -4,6 +4,7 @@ description: Diceware pass phrase generator
 type: library
 platform: PHP & Laravel
 active: true
+github: https://github.com/kduma-OSS/LV-passphrase-generator
 ---
 
 ::u-button-group

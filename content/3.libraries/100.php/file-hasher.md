@@ -6,6 +6,7 @@ description: MD5 and SHA1 file hash calculator and checker library
 type: library
 platform: PHP
 active: true
+github: https://github.com/kduma-OSS/PHP-file-hasher
 ---
 
 ::u-button-group
