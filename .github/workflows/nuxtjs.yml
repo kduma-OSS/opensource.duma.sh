@@ -62,7 +62,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: |
-            dist
+            .output
             .nuxt
           key: ${{ runner.os }}-nuxt-build-${{ hashFiles('dist') }}
           restore-keys: |
@@ -70,11 +70,11 @@ jobs:
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Static HTML export with Nuxt
-        run: ${{ steps.detect-package-manager.outputs.manager }} run build
+        run: ${{ steps.detect-package-manager.outputs.manager }} run generate
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: ./.output
+          path: ./.output/public
 
   # Deployment job
   deploy:

@@ -3,7 +3,8 @@
   "description": "Open Source Software by Krystian Duma",
   "scripts": {
     "dev": "nuxt dev --extends docus",
-    "build": "nuxt build --extends docus"
+    "build": "nuxt build --extends docus",
+    "generate": "nuxt generate --extends docus"
   },
   "dependencies": {
     "docus": "^4.1.2",
