@@ -14,28 +14,22 @@ github: https://github.com/kduma-OSS/LV-eloquent-ulidable
 :u-button[Packagist]{icon="simple-icons:packagist" href="https://packagist.org/packages/kduma/eloquent-ulidable" blank}
 ::
 
-## Setup
+# Setup
 Install it using composer
 
-```bash
-composer require kduma/eloquent-ulidable
-```
+    composer require kduma/eloquent-ulidable
 
-## Prepare models
+# Prepare models
 Inside your model (not on top of file) add following lines:
 
-```php
-use \KDuma\Eloquent\Ulidable;
-```
+    use \KDuma\Eloquent\Ulidable;
 
 In database create `ulid` string field. If you use migrations, you can use following snippet:
 
-```php
-$table->ulid()->unique();
-```
+    $table->ulid()->unique();
 
-## Usage
-By default it generates slug on first save.
+# Usage
+By default, it generates slug on first save.
 
-- `$model->regenerateUlid()`{lang="php"} - Generate new uuid. (Remember to save it by yourself)
-- `Model::whereUlid($ulid)->first()`{lang="php"} - Find by ulid. (`whereUlid` is query scope)
+- `$model->regenerateUlid()` - Generate new ulid. (Remember to save it by yourself)
+- `Model::whereUlid($ulid)->first()` - Find by ulid. (`whereUlid` is query scope)

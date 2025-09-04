@@ -14,32 +14,28 @@ github: https://github.com/kduma-OSS/LV-eloquent-tokenable
 :u-button[Packagist]{icon="simple-icons:packagist" href="https://packagist.org/packages/kduma/eloquent-tokenable" blank}
 ::
 
-## Setup
+# Setup
 Add the package to the require section of your composer.json and run `composer update`
 
-```json
-"kduma/eloquent-tokenable": "^1.1"
-```
+    "kduma/eloquent-tokenable": "^1.1"
 
-## Prepare models
+# Prepare models
 In your model add following lines:
 
-```php
-use \KDuma\Eloquent\Tokenable;
-protected $appends = array('token');
-```
+    use \KDuma\Eloquent\Tokenable;
+    protected $appends = array('token');
 
 Optionally you can add also:
 
-- `protected $salt = 'SALT';`{lang="php"}  
+- `protected $salt = 'SALT';`  
   A salt for making hashes. Default is table name. This salt is added to your `APP_KEY`.
 
-- `protected $length = 10;`{lang="php"}  
+- `protected $length = 10;`  
   A salt length. Default is 10.
 
-- `protected $alphabet = 'qwertyuiopasdfghjklzxcvbnm1234567890';`{lang="php"}  
+- `protected $alphabet = 'qwertyuiopasdfghjklzxcvbnm1234567890';`  
   A hash alphabet. Default is `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890`
 
-## Usage
-- `$model->token`{lang="php"} - Generate tokens
-- `Model::whereToken($id)->first()`{lang="php"} - Find by token. (`whereToken` is query scope)
+# Usage
+- `$model->token` - Generate tokens
+- `Model::whereToken($id)->first()` - Find by token. (`whereToken` is query scope)
