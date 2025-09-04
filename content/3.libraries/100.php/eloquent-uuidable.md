@@ -14,12 +14,12 @@ github: https://github.com/kduma-OSS/LV-eloquent-uuidable
 :u-button[Packagist]{icon="simple-icons:packagist" href="https://packagist.org/packages/kduma/eloquent-uuidable" blank}
 ::
 
-# Setup
+## Setup
 Install it using composer
 
     composer require kduma/eloquent-uuidable
 
-# Prepare models
+## Prepare models
 Inside your model (not on top of file) add following lines:
 
     use \KDuma\Eloquent\Uuidable;
@@ -28,13 +28,13 @@ In database create `uuid` string field. If you use migrations, you can use follo
 
     $table->uuid('uuid')->unique();
 
-# Usage
+## Usage
 By default it generates slug on first save.
 
 - `$model->regenerateUuid()` - Generate new uuid. (Remember to save it by yourself)
 - `Model::whereUuid($uuid)->first()` - Find by guid. (`whereUuid` is query scope)
 
-# Upgrade from 1.x/2.x version of `kduma/eloquent-guidable`
+## Upgrade from 1.x/2.x version of `kduma/eloquent-guidable`
 
 Add following line to yours models to switch from using `uuid` column name to `guid` as it was used in previous versions:
 

@@ -14,12 +14,12 @@ github: https://github.com/kduma-OSS/LV-eloquent-tokenable
 :u-button[Packagist]{icon="simple-icons:packagist" href="https://packagist.org/packages/kduma/eloquent-tokenable" blank}
 ::
 
-# Setup
+## Setup
 Add the package to the require section of your composer.json and run `composer update`
 
     "kduma/eloquent-tokenable": "^1.1"
 
-# Prepare models
+## Prepare models
 In your model add following lines:
 
     use \KDuma\Eloquent\Tokenable;
@@ -36,6 +36,6 @@ Optionally you can add also:
 - `protected $alphabet = 'qwertyuiopasdfghjklzxcvbnm1234567890';`  
   A hash alphabet. Default is `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890`
 
-# Usage
+## Usage
 - `$model->token` - Generate tokens
 - `Model::whereToken($id)->first()` - Find by token. (`whereToken` is query scope)

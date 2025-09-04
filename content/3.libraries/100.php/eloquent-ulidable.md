@@ -14,12 +14,12 @@ github: https://github.com/kduma-OSS/LV-eloquent-ulidable
 :u-button[Packagist]{icon="simple-icons:packagist" href="https://packagist.org/packages/kduma/eloquent-ulidable" blank}
 ::
 
-# Setup
+## Setup
 Install it using composer
 
     composer require kduma/eloquent-ulidable
 
-# Prepare models
+## Prepare models
 Inside your model (not on top of file) add following lines:
 
     use \KDuma\Eloquent\Ulidable;
@@ -28,7 +28,7 @@ In database create `ulid` string field. If you use migrations, you can use follo
 
     $table->ulid()->unique();
 
-# Usage
+## Usage
 By default, it generates slug on first save.
 
 - `$model->regenerateUlid()` - Generate new ulid. (Remember to save it by yourself)
