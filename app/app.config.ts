@@ -47,6 +47,6 @@ export default defineAppConfig({
     github: {
         url: 'https://github.com/kduma-OSS/opensource.duma.sh',
         branch: 'main',
-        rootDir: 'content'
+        rootDir: ''
     }
 })
