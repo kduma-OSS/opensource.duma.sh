@@ -1,0 +1,11 @@
+{
+    "type": "library",
+    "name": "LV-SMS-Driver-SerwerSMS",
+    "title": "An SerwerSMS.pl driver for kduma/sms package",
+    "platform": "Laravel",
+    "active": false,
+    "github": "https://github.com/kduma-OSS/LV-SMS-Driver-SerwerSMS",
+    "featured": null,
+    "featured_description": null,
+    "featured_icon": null
+}

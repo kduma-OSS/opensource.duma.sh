@@ -1,0 +1,11 @@
+{
+    "type": "library",
+    "name": "LV-cron",
+    "title": "Laravel queue runner for webcron (with runtime limit)",
+    "platform": "Laravel",
+    "active": false,
+    "github": "https://github.com/kduma-OSS/LV-cron",
+    "featured": null,
+    "featured_description": null,
+    "featured_icon": null
+}

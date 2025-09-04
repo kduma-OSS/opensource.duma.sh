@@ -1,0 +1,11 @@
+{
+    "type": "library",
+    "name": "LV-eloquent-encryptable",
+    "title": "Eloquent Encryptable",
+    "platform": "Laravel",
+    "active": true,
+    "github": "https://github.com/kduma-OSS/LV-eloquent-encryptable",
+    "featured": null,
+    "featured_description": null,
+    "featured_icon": null
+}

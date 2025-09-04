@@ -1,0 +1,11 @@
+{
+    "type": "library",
+    "name": "PHP-bulk-generator",
+    "title": "Bulk PDF Document Generator",
+    "platform": "PHP",
+    "active": true,
+    "github": "https://github.com/kduma-OSS/PHP-bulk-generator",
+    "featured": "2",
+    "featured_description": "Bulk PDF Document Generator",
+    "featured_icon": "carbon:document-pdf"
+}

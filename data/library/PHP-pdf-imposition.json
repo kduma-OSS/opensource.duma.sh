@@ -1,0 +1,11 @@
+{
+    "type": "library",
+    "name": "PHP-pdf-imposition",
+    "title": "PDF Imposition Toolkit",
+    "platform": "PHP",
+    "active": true,
+    "github": "https://github.com/kduma-OSS/PHP-pdf-imposition",
+    "featured": "3",
+    "featured_description": "PDF Imposition Toolkit",
+    "featured_icon": "fluent:document-page-break-20-regular"
+}

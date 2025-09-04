@@ -1,0 +1,11 @@
+{
+    "type": "library",
+    "name": "PHP-file-hasher",
+    "title": "File Hasher",
+    "platform": "PHP",
+    "active": true,
+    "github": "https://github.com/kduma-OSS/PHP-file-hasher",
+    "featured": null,
+    "featured_description": null,
+    "featured_icon": null
+}

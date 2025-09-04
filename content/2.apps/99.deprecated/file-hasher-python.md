@@ -1,14 +1,19 @@
 ---
+navigation:
+  title: File Hasher.PY
 title: File Hasher (PY)
+description: MD5 and SHA1 file hash calculator and checker
 type: app
 platform: Python
 active: false
 github: https://github.com/kduma-OSS/PY-file-hasher
 ---
 
+::u-button-group
+:u-button[GitHub Repository]{icon="bxl:github" href="https://github.com/kduma-OSS/PY-file-hasher" blank}
 
-# PY-file-hasher
-MD5 and SHA1 file hash calculator and checker
+:u-button[Releases]{icon="material-symbols:cloud-download" href="https://github.com/kduma-OSS/PY-file-hasher/releases/latest/" blank}
+::
 
 ## hasher
 ```

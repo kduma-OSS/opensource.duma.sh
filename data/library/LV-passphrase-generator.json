@@ -1,0 +1,11 @@
+{
+    "type": "library",
+    "name": "LV-passphrase-generator",
+    "title": "Diceware pass phrase generator",
+    "platform": "Laravel",
+    "active": true,
+    "github": "https://github.com/kduma-OSS/LV-passphrase-generator",
+    "featured": null,
+    "featured_description": null,
+    "featured_icon": null
+}

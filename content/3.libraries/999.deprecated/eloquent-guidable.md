@@ -1,20 +1,23 @@
 ---
 title: Eloquent GUID-able
+description: Eases using and generating guid's in Laravel Eloquent models.
 type: library
 platform: Laravel
 active: false
 github: https://github.com/kduma-OSS/LV-eloquent-guidable
 ---
 
+::u-button-group
+:u-button[GitHub Repository]{icon="bxl:github" href="https://github.com/kduma-OSS/LV-eloquent-guidable" blank}
 
-::alert{type="info"}
-**New Version:** For new apps, please use the newer version available here: [kduma/eloquent-uuidable](/libraries/eloquent-uuidable)
+:u-button[Releases]{icon="material-symbols:cloud-download" href="https://github.com/kduma-OSS/LV-eloquent-guidable/releases/latest/" blank}
+
+:u-button[Packagist]{icon="simple-icons:packagist" href="https://packagist.org/packages/kduma/eloquent-guidable" blank}
 ::
 
-
-# L5-eloquent-guidable
-
-Eases using and generating guid's in Laravel Eloquent models.
+::note
+**New Version:** For new apps, please use the newer version available here: [kduma/eloquent-uuidable](/libraries/php/eloquent-uuidable)
+::
 
 # Setup
 Add the package to the require section of your composer.json and run `composer update`

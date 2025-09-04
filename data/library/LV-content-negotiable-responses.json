@@ -1,0 +1,11 @@
+{
+    "type": "library",
+    "name": "LV-content-negotiable-responses",
+    "title": "Content Negotiable Responses",
+    "platform": "Laravel",
+    "active": true,
+    "github": "https://github.com/kduma-OSS/LV-content-negotiable-responses",
+    "featured": "1",
+    "featured_description": "Laravel helpers for creating content-type negotiable responses",
+    "featured_icon": "material-symbols:merge-type"
+}

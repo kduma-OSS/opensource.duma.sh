@@ -1,18 +1,23 @@
 ---
 title: CoinHive API and Captcha
+description: PHP and Laravel 5 CoinHive API and Captcha
 type: library
 platform: PHP & Laravel
 active: false
 github: https://github.com/kduma-OSS/LV-CoinHive-api
 ---
 
+::u-button-group
+:u-button[GitHub Repository]{icon="bxl:github" href="https://github.com/kduma-OSS/LV-CoinHive-api" blank}
+
+:u-button[Releases]{icon="material-symbols:cloud-download" href="https://github.com/kduma-OSS/LV-CoinHive-api/releases/latest/" blank}
+
+:u-button[Packagist]{icon="simple-icons:packagist" href="https://packagist.org/packages/kduma/coinhive-api" blank}
+::
+
 **Package EOL:**
 This package is archived because of [discontinuation of CoinHive](https://web.archive.org/web/20190228020155/https://coinhive.com/blog/en/discontinuation-of-coinhive).
 
-
-# PHP and Laravel 5 CoinHive API and Captcha
-
-PHP and Laravel 5 CoinHive API and Captcha
 
 ## Install
 

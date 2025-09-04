@@ -1,0 +1,11 @@
+{
+    "type": "library",
+    "name": "LV-polish-validator-rules",
+    "title": "Polish Validation rules for Laravel Validator",
+    "platform": "Laravel",
+    "active": true,
+    "github": "https://github.com/kduma-OSS/LV-polish-validator-rules",
+    "featured": null,
+    "featured_description": null,
+    "featured_icon": null
+}

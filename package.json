@@ -1,17 +1,13 @@
 {
-  "name": "docus-starter",
-  "version": "0.1.0",
-  "private": true,
+  "name": "opensource.duma.sh",
+  "description": "Open Source Software by Krystian Duma",
   "scripts": {
-    "dev": "nuxi dev",
-    "build": "nuxi build",
-    "generate": "nuxi generate",
-    "preview": "nuxi preview"
+    "dev": "nuxt dev --extends docus",
+    "build": "nuxt build --extends docus"
   },
-  "devDependencies": {
-    "@nuxt-themes/docus": "1.1.8",
-    "collect.js": "^4.34.3",
-    "locutus": "^2.0.16",
-    "nuxt": "^3.0.0"
+  "dependencies": {
+    "docus": "latest",
+    "better-sqlite3": "^12.2.0",
+    "nuxt": "^4.0.0"
   }
 }

@@ -1,0 +1,11 @@
+{
+    "type": "library",
+    "name": "LV-permissions",
+    "title": "Simple package to provide Roles and Permissions to Laravel",
+    "platform": "Laravel",
+    "active": false,
+    "github": "https://github.com/kduma-OSS/LV-permissions",
+    "featured": null,
+    "featured_description": null,
+    "featured_icon": null
+}

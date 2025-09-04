@@ -1,0 +1,11 @@
+{
+    "type": "library",
+    "name": "LV-soap-server",
+    "title": "Laravel SOAP service server",
+    "platform": "Laravel",
+    "active": true,
+    "github": "https://github.com/kduma-OSS/LV-soap-server",
+    "featured": "4",
+    "featured_description": "Simple creation of SOAP Web Services in Laravel",
+    "featured_icon": "ant-design:api-outlined"
+}
