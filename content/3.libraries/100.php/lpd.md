@@ -12,7 +12,7 @@ github: https://github.com/kduma-OSS/PHP-LPD
 
 :u-button[Releases]{icon="material-symbols:cloud-download" href="https://github.com/kduma-OSS/PHP-LPD/releases/latest/" target="_blank"}
 
-:u-button[Packagist]{icon="simple-icons:packagist" href="https://packagist.org/packages/kduma/passphrase-generator" target="_blank"}
+:u-button[Packagist]{icon="simple-icons:packagist" href="https://packagist.org/packages/kduma/lpd" target="_blank"}
 ::
 
 ## Install
