@@ -14,6 +14,8 @@ github: https://github.com/kduma-OSS/CLI-comparator
 :u-button[GitHub Repository]{icon="bxl:github" href="https://github.com/kduma-OSS/CLI-comparator" blank}
 
 :u-button[Releases]{icon="material-symbols:cloud-download" href="https://github.com/kduma-OSS/CLI-comparator/releases/latest/" blank}
+
+:u-button[Packagist]{icon="simple-icons:packagist" href="https://packagist.org/packages/kduma/comparator" blank}
 ::
 
 ## Setup
