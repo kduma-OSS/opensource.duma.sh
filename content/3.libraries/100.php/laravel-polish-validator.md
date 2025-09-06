@@ -7,11 +7,11 @@ github: https://github.com/kduma-OSS/LV-polish-validator-rules
 ---
 
 ::u-button-group
-:u-button[GitHub Repository]{icon="bxl:github" href="https://github.com/kduma-OSS/LV-polish-validator-rules" blank}
+:u-button[GitHub Repository]{icon="bxl:github" href="https://github.com/kduma-OSS/LV-polish-validator-rules" target="_blank"}
 
-:u-button[Releases]{icon="material-symbols:cloud-download" href="https://github.com/kduma-OSS/LV-polish-validator-rules/releases/latest/" blank}
+:u-button[Releases]{icon="material-symbols:cloud-download" href="https://github.com/kduma-OSS/LV-polish-validator-rules/releases/latest/" target="_blank"}
 
-:u-button[Packagist]{icon="simple-icons:packagist" href="https://packagist.org/packages/kduma/polish-validator" blank}
+:u-button[Packagist]{icon="simple-icons:packagist" href="https://packagist.org/packages/kduma/polish-validator" target="_blank"}
 ::
 
 ## Setup

@@ -10,11 +10,11 @@ github: https://github.com/kduma-autoid/capacitor-sunmi-scanhead-lite
 # @kduma-autoid/capacitor-sunmi-scanhead-lite
 
 ::u-button-group
-:u-button[GitHub Repository]{icon="bxl:github" href="https://github.com/kduma-autoid/capacitor-sunmi-scanhead-lite" blank}
+:u-button[GitHub Repository]{icon="bxl:github" href="https://github.com/kduma-autoid/capacitor-sunmi-scanhead-lite" target="_blank"}
 
-:u-button[Releases]{icon="material-symbols:cloud-download" href="https://github.com/kduma-autoid/capacitor-sunmi-scanhead-lite/releases/latest/" blank}
+:u-button[Releases]{icon="material-symbols:cloud-download" href="https://github.com/kduma-autoid/capacitor-sunmi-scanhead-lite/releases/latest/" target="_blank"}
 
-:u-button[NPM]{icon="tabler:brand-npm" href="https://www.npmjs.com/package/@kduma-autoid/capacitor-sunmi-scanhead-lite" blank}
+:u-button[NPM]{icon="tabler:brand-npm" href="https://www.npmjs.com/package/@kduma-autoid/capacitor-sunmi-scanhead-lite" target="_blank"}
 ::
 
 Sunmi Scan Head (lite) bindings for Capacitor.

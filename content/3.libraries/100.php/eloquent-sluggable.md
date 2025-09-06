@@ -7,11 +7,11 @@ github: https://github.com/kduma-OSS/LV-eloquent-sluggable
 ---
 
 ::u-button-group
-:u-button[GitHub Repository]{icon="bxl:github" href="https://github.com/kduma-OSS/LV-eloquent-sluggable" blank}
+:u-button[GitHub Repository]{icon="bxl:github" href="https://github.com/kduma-OSS/LV-eloquent-sluggable" target="_blank"}
 
-:u-button[Releases]{icon="material-symbols:cloud-download" href="https://github.com/kduma-OSS/LV-eloquent-sluggable/releases/latest/" blank}
+:u-button[Releases]{icon="material-symbols:cloud-download" href="https://github.com/kduma-OSS/LV-eloquent-sluggable/releases/latest/" target="_blank"}
 
-:u-button[Packagist]{icon="simple-icons:packagist" href="https://packagist.org/packages/kduma/eloquent-sluggable" blank}
+:u-button[Packagist]{icon="simple-icons:packagist" href="https://packagist.org/packages/kduma/eloquent-sluggable" target="_blank"}
 ::
 
 ## Setup

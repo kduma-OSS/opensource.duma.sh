@@ -8,11 +8,11 @@ github: https://github.com/kduma-OSS/LV-CoinHive-api
 ---
 
 ::u-button-group
-:u-button[GitHub Repository]{icon="bxl:github" href="https://github.com/kduma-OSS/LV-CoinHive-api" blank}
+:u-button[GitHub Repository]{icon="bxl:github" href="https://github.com/kduma-OSS/LV-CoinHive-api" target="_blank"}
 
-:u-button[Releases]{icon="material-symbols:cloud-download" href="https://github.com/kduma-OSS/LV-CoinHive-api/releases/latest/" blank}
+:u-button[Releases]{icon="material-symbols:cloud-download" href="https://github.com/kduma-OSS/LV-CoinHive-api/releases/latest/" target="_blank"}
 
-:u-button[Packagist]{icon="simple-icons:packagist" href="https://packagist.org/packages/kduma/coinhive-api" blank}
+:u-button[Packagist]{icon="simple-icons:packagist" href="https://packagist.org/packages/kduma/coinhive-api" target="_blank"}
 ::
 
 **Package EOL:**

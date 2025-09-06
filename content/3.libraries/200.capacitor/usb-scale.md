@@ -10,11 +10,11 @@ github: https://github.com/kduma-autoid/capacitor-usb-scale
 # @kduma-autoid/capacitor-usb-scale
 
 ::u-button-group
-:u-button[GitHub Repository]{icon="bxl:github" href="https://github.com/kduma-autoid/capacitor-usb-scale" blank}
+:u-button[GitHub Repository]{icon="bxl:github" href="https://github.com/kduma-autoid/capacitor-usb-scale" target="_blank"}
 
-:u-button[Releases]{icon="material-symbols:cloud-download" href="https://github.com/kduma-autoid/capacitor-usb-scale/releases/latest/" blank}
+:u-button[Releases]{icon="material-symbols:cloud-download" href="https://github.com/kduma-autoid/capacitor-usb-scale/releases/latest/" target="_blank"}
 
-:u-button[NPM]{icon="tabler:brand-npm" href="https://www.npmjs.com/package/@kduma-autoid/capacitor-usb-scale" blank}
+:u-button[NPM]{icon="tabler:brand-npm" href="https://www.npmjs.com/package/@kduma-autoid/capacitor-usb-scale" target="_blank"}
 ::
 
 ## Install

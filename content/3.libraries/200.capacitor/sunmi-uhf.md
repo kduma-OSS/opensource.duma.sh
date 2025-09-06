@@ -10,11 +10,11 @@ github: https://github.com/kduma-autoid/capacitor-sunmi-uhf
 # @kduma-autoid/capacitor-sunmi-uhf
 
 ::u-button-group
-:u-button[GitHub Repository]{icon="bxl:github" href="https://github.com/kduma-autoid/capacitor-sunmi-uhf" blank}
+:u-button[GitHub Repository]{icon="bxl:github" href="https://github.com/kduma-autoid/capacitor-sunmi-uhf" target="_blank"}
 
-:u-button[Releases]{icon="material-symbols:cloud-download" href="https://github.com/kduma-autoid/capacitor-sunmi-uhf/releases/latest/" blank}
+:u-button[Releases]{icon="material-symbols:cloud-download" href="https://github.com/kduma-autoid/capacitor-sunmi-uhf/releases/latest/" target="_blank"}
 
-:u-button[NPM]{icon="tabler:brand-npm" href="https://www.npmjs.com/package/@kduma-autoid/capacitor-sunmi-uhf" blank}
+:u-button[NPM]{icon="tabler:brand-npm" href="https://www.npmjs.com/package/@kduma-autoid/capacitor-sunmi-uhf" target="_blank"}
 ::
 
 ## Install

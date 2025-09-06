@@ -8,11 +8,11 @@ active: false
 ---
 
 ::u-button-group
-:u-button[GitHub Repository]{icon="bxl:github" href="https://github.com/kduma-OSS/LV-SMS" blank}
+:u-button[GitHub Repository]{icon="bxl:github" href="https://github.com/kduma-OSS/LV-SMS" target="_blank"}
 
-:u-button[Releases]{icon="material-symbols:cloud-download" href="https://github.com/kduma-OSS/LV-SMS/releases/latest/" blank}
+:u-button[Releases]{icon="material-symbols:cloud-download" href="https://github.com/kduma-OSS/LV-SMS/releases/latest/" target="_blank"}
 
-:u-button[Packagist]{icon="simple-icons:packagist" href="https://packagist.org/packages/kduma/sms" blank}
+:u-button[Packagist]{icon="simple-icons:packagist" href="https://packagist.org/packages/kduma/sms" target="_blank"}
 ::
 
 ## Install

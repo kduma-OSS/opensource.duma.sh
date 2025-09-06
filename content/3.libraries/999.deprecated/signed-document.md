@@ -8,11 +8,11 @@ active: false
 ---
 
 ::u-button-group
-:u-button[GitHub Repository]{icon="bxl:github" href="https://github.com/kduma-OSS/PHP-signed-document" blank}
+:u-button[GitHub Repository]{icon="bxl:github" href="https://github.com/kduma-OSS/PHP-signed-document" target="_blank"}
 
-:u-button[Releases]{icon="material-symbols:cloud-download" href="https://github.com/kduma-OSS/PHP-signed-document/releases/latest/" blank}
+:u-button[Releases]{icon="material-symbols:cloud-download" href="https://github.com/kduma-OSS/PHP-signed-document/releases/latest/" target="_blank"}
 
-:u-button[Packagist]{icon="simple-icons:packagist" href="https://packagist.org/packages/kduma/signed-document" blank}
+:u-button[Packagist]{icon="simple-icons:packagist" href="https://packagist.org/packages/kduma/signed-document" target="_blank"}
 ::
 
 

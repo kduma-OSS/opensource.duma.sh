@@ -10,11 +10,11 @@ github: https://github.com/kduma-autoid/capacitor-webview-watchdog
 # @kduma-autoid/capacitor-webview-watchdog
 
 ::u-button-group
-:u-button[GitHub Repository]{icon="bxl:github" href="https://github.com/kduma-autoid/capacitor-webview-watchdog" blank}
+:u-button[GitHub Repository]{icon="bxl:github" href="https://github.com/kduma-autoid/capacitor-webview-watchdog" target="_blank"}
 
-:u-button[Releases]{icon="material-symbols:cloud-download" href="https://github.com/kduma-autoid/capacitor-webview-watchdog/releases/latest/" blank}
+:u-button[Releases]{icon="material-symbols:cloud-download" href="https://github.com/kduma-autoid/capacitor-webview-watchdog/releases/latest/" target="_blank"}
 
-:u-button[NPM]{icon="tabler:brand-npm" href="https://www.npmjs.com/package/@kduma-autoid/capacitor-webview-watchdog" blank}
+:u-button[NPM]{icon="tabler:brand-npm" href="https://www.npmjs.com/package/@kduma-autoid/capacitor-webview-watchdog" target="_blank"}
 ::
 
 ## Install

@@ -10,11 +10,11 @@ github: https://github.com/kduma-autoid/capacitor-bluetooth-printer
 # @kduma-autoid/capacitor-bluetooth-printer
 
 ::u-button-group
-:u-button[GitHub Repository]{icon="bxl:github" href="https://github.com/kduma-autoid/capacitor-bluetooth-printer" blank}
+:u-button[GitHub Repository]{icon="bxl:github" href="https://github.com/kduma-autoid/capacitor-bluetooth-printer" target="_blank"}
 
-:u-button[Releases]{icon="material-symbols:cloud-download" href="https://github.com/kduma-autoid/capacitor-bluetooth-printer/releases/latest/" blank}
+:u-button[Releases]{icon="material-symbols:cloud-download" href="https://github.com/kduma-autoid/capacitor-bluetooth-printer/releases/latest/" target="_blank"}
 
-:u-button[NPM]{icon="tabler:brand-npm" href="https://www.npmjs.com/package/@kduma-autoid/capacitor-bluetooth-printer" blank}
+:u-button[NPM]{icon="tabler:brand-npm" href="https://www.npmjs.com/package/@kduma-autoid/capacitor-bluetooth-printer" target="_blank"}
 ::
 
 ## Install

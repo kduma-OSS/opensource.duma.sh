@@ -10,9 +10,9 @@ github: https://github.com/kduma-OSS/CS-Partial-Key-Verification-Compact-Framewo
 ---
 
 ::u-button-group
-:u-button[GitHub Repository]{icon="bxl:github" href="https://github.com/kduma-OSS/CS-Partial-Key-Verification-Compact-Framework" blank}
+:u-button[GitHub Repository]{icon="bxl:github" href="https://github.com/kduma-OSS/CS-Partial-Key-Verification-Compact-Framework" target="_blank"}
 
-:u-button[Releases]{icon="material-symbols:cloud-download" href="https://github.com/kduma-OSS/CS-Partial-Key-Verification-Compact-Framework/releases/latest/" blank}
+:u-button[Releases]{icon="material-symbols:cloud-download" href="https://github.com/kduma-OSS/CS-Partial-Key-Verification-Compact-Framework/releases/latest/" target="_blank"}
 ::
 
 **This is fork of [cuda/Partial-Key-Verification](https://github.com/cuda/Partial-Key-Verification) ported for .NET Compact Framework 3.5**. 
@@ -41,7 +41,7 @@ by 20%, and allows you to specify a different hash algorithm for each subkey.
 At this moment, there is no build artifacts available to download from [GitHub Releases](https://github.com/kduma-OSS/CS-Partial-Key-Verification-Compact-Framework/releases/latest).
 You need to clone the repository and build it yourself using **Visual Studio 2008 Professional** with **Compact Framework 3.5** installed.
 
-:u-button[GitHub Repository]{icon="bxl:github" href="https://github.com/kduma-OSS/CS-Partial-Key-Verification-Compact-Framework" blank}
+:u-button[GitHub Repository]{icon="bxl:github" href="https://github.com/kduma-OSS/CS-Partial-Key-Verification-Compact-Framework" target="_blank"}
 
 
 After successful build, there will be few artifacts:

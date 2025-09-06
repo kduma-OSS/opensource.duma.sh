@@ -10,11 +10,11 @@ github: https://github.com/kduma-autoid/capacitor-sunmi-camera-scanner
 # @kduma-autoid/capacitor-sunmi-camera-scanner
 
 ::u-button-group
-:u-button[GitHub Repository]{icon="bxl:github" href="https://github.com/kduma-autoid/capacitor-sunmi-camera-scanner" blank}
+:u-button[GitHub Repository]{icon="bxl:github" href="https://github.com/kduma-autoid/capacitor-sunmi-camera-scanner" target="_blank"}
 
-:u-button[Releases]{icon="material-symbols:cloud-download" href="https://github.com/kduma-autoid/capacitor-sunmi-camera-scanner/releases/latest/" blank}
+:u-button[Releases]{icon="material-symbols:cloud-download" href="https://github.com/kduma-autoid/capacitor-sunmi-camera-scanner/releases/latest/" target="_blank"}
 
-:u-button[NPM]{icon="tabler:brand-npm" href="https://www.npmjs.com/package/@kduma-autoid/capacitor-sunmi-camera-scanner" blank}
+:u-button[NPM]{icon="tabler:brand-npm" href="https://www.npmjs.com/package/@kduma-autoid/capacitor-sunmi-camera-scanner" target="_blank"}
 ::
 
 ## Install

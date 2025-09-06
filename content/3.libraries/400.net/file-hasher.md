@@ -10,9 +10,9 @@ github: https://github.com/kduma-OSS/CS-file-hasher
 ---
 
 ::u-button-group
-:u-button[GitHub Repository]{icon="bxl:github" href="https://github.com/kduma-OSS/CS-file-hasher" blank}
+:u-button[GitHub Repository]{icon="bxl:github" href="https://github.com/kduma-OSS/CS-file-hasher" target="_blank"}
 
-:u-button[Releases]{icon="material-symbols:cloud-download" href="https://github.com/kduma-OSS/CS-file-hasher/releases/latest/" blank}
+:u-button[Releases]{icon="material-symbols:cloud-download" href="https://github.com/kduma-OSS/CS-file-hasher/releases/latest/" target="_blank"}
 ::
 
 ## `FileHasher.Library.Hasher`

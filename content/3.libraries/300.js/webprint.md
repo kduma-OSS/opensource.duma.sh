@@ -12,11 +12,11 @@ system_url: /systems/webprint
 ---
 
 ::u-button-group
-:u-button[GitHub Repository]{icon="bxl:github" href="https://github.com/kduma-OSS/WebPrint-Client-JS" blank}
+:u-button[GitHub Repository]{icon="bxl:github" href="https://github.com/kduma-OSS/WebPrint-Client-JS" target="_blank"}
 
-:u-button[Releases]{icon="material-symbols:cloud-download" href="https://github.com/kduma-OSS/WebPrint-Client-JS/releases/latest/" blank}
+:u-button[Releases]{icon="material-symbols:cloud-download" href="https://github.com/kduma-OSS/WebPrint-Client-JS/releases/latest/" target="_blank"}
 
-:u-button[NPM]{icon="tabler:brand-npm" href="https://www.npmjs.com/package/webprint.js" blank}
+:u-button[NPM]{icon="tabler:brand-npm" href="https://www.npmjs.com/package/webprint.js" target="_blank"}
 ::
 
 ## Installation

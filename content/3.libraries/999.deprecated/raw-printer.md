@@ -8,11 +8,11 @@ github: https://github.com/kduma-OSS/CS-Raw-Printer
 ---
 
 ::u-button-group
-:u-button[GitHub Repository]{icon="bxl:github" href="https://github.com/kduma-OSS/CS-Raw-Printer" blank}
+:u-button[GitHub Repository]{icon="bxl:github" href="https://github.com/kduma-OSS/CS-Raw-Printer" target="_blank"}
 
-:u-button[Releases]{icon="material-symbols:cloud-download" href="https://github.com/kduma-OSS/CS-Raw-Printer/releases/latest/" blank}
+:u-button[Releases]{icon="material-symbols:cloud-download" href="https://github.com/kduma-OSS/CS-Raw-Printer/releases/latest/" target="_blank"}
 
-:u-button[RawPrinter.dll]{icon="material-symbols:cloud-download" href="https://github.com/kduma-OSS/CS-Raw-Printer/releases/latest/download/RawPrinter.dll" blank}
+:u-button[RawPrinter.dll]{icon="material-symbols:cloud-download" href="https://github.com/kduma-OSS/CS-Raw-Printer/releases/latest/download/RawPrinter.dll" target="_blank"}
 ::
 
 ## Setup

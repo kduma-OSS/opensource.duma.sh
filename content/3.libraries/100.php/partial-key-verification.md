@@ -10,11 +10,11 @@ featured_icon: fluent:key-24-regular
 ---
 
 ::u-button-group
-:u-button[GitHub Repository]{icon="bxl:github" href="https://github.com/kduma-OSS/PHP-Partial-Key-Verification" blank}
+:u-button[GitHub Repository]{icon="bxl:github" href="https://github.com/kduma-OSS/PHP-Partial-Key-Verification" target="_blank"}
 
-:u-button[Releases]{icon="material-symbols:cloud-download" href="https://github.com/kduma-OSS/PHP-Partial-Key-Verification/releases/latest/" blank}
+:u-button[Releases]{icon="material-symbols:cloud-download" href="https://github.com/kduma-OSS/PHP-Partial-Key-Verification/releases/latest/" target="_blank"}
 
-:u-button[Packagist]{icon="simple-icons:packagist" href="https://packagist.org/packages/kduma/pkv" blank}
+:u-button[Packagist]{icon="simple-icons:packagist" href="https://packagist.org/packages/kduma/pkv" target="_blank"}
 ::
 
 This is a port of my other C# library [Partial Key Verification Library for Compact Framework](/libraries/net/partial-key-verification) into a PHP package.
