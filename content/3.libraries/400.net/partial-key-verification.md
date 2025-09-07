@@ -18,6 +18,8 @@ github: https://github.com/kduma-OSS/CS-Partial-Key-Verification-Compact-Framewo
 **This is fork of [cuda/Partial-Key-Verification](https://github.com/cuda/Partial-Key-Verification) ported for .NET Compact Framework 3.5**. 
 Compile using Visual Studio 2008 Professional with installed SDK for Windows Mobile 6.
 
+This library is compatible with my [PHP](/libraries/php/partial-key-verification) and [JavaScript/TypeScript](/libraries/js/partial-key-verification) ports.
+
 ## Partial Key Verification 
 
 Partial Key Verification (PKV) is a software licensing key technique that breaks

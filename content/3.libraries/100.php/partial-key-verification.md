@@ -19,6 +19,8 @@ featured_icon: fluent:key-24-regular
 
 This is a port of my other C# library [Partial Key Verification Library for Compact Framework](/libraries/net/partial-key-verification) into a PHP package.
 
+This library is compatible with my [.NET CF](/libraries/net/partial-key-verification) and [JavaScript/TypeScript](/libraries/js/partial-key-verification) ports.
+
 This library implements Partial Key Verification (PKV). PKV is a cryptographic technique that allows verification of a subset of a key without revealing the entire key, enhancing security and privacy in various applications.
 
 ## Partial Key Verification
