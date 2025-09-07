@@ -1,7 +1,7 @@
 export default defineAppConfig({
     seo: {
         // Default to `%s - ${site.name}`
-        titleTemplate: '%s - ${site.name}',
+        titleTemplate: '%s - opensource.duma.sh',
         // Default to package.json name
         title: 'opensource.duma.sh',
         // Default to package.json description
