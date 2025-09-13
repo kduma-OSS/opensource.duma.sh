@@ -1,8 +1,8 @@
 ---
 navigation:
     title: Certificate Chain
-title: Certificate Chain of Trust
-description: A PHP library for binary data manipulation and encoding/decoding operations. This library provides safe, efficient tools for working with binary data, including UTF-8 validation and secure string comparisons.
+title: Certificate Chain of Trust (PHP)
+description: A modern, secure PHP library for creating and managing certificate authorities, digital signatures, and trust relationships using Ed25519 cryptography.
 type: library
 platform: PHP
 active: true
@@ -206,9 +206,9 @@ foreach ($certificates as $cert) {
 }
 ```
 
-# PHP Certificate Chain of Trust - Complete Documentation
+## PHP Certificate Chain of Trust - Complete Documentation
 
-## Table of Contents
+### Table of Contents
 
 - [Introduction](#introduction)
 - [Installation](#installation)
@@ -221,11 +221,11 @@ foreach ($certificates as $cert) {
 - [Best Practices](#best-practices)
 - [Binary Format](#binary-format)
 
-## Introduction
+### Introduction
 
 PHP Certificate Chain of Trust is a modern library for creating, managing, and validating certificate chains using Ed25519 cryptography. Built on top of libsodium, it provides a secure and efficient way to implement certificate authorities, digital signatures, and trust relationships.
 
-### Key Features
+#### Key Features
 
 - **Ed25519 Cryptography**: Fast, secure elliptic curve signatures
 - **Flexible Certificate Flags**: 8 generic end-entity flags plus CA-level flags
@@ -234,7 +234,7 @@ PHP Certificate Chain of Trust is a modern library for creating, managing, and v
 - **Strict Validation**: Comprehensive security checks and flag inheritance validation
 - **Modern PHP**: Built for PHP 8.4+ with strict typing and readonly classes
 
-### Architecture Overview
+#### Architecture Overview
 
 The library follows a layered architecture:
 
@@ -252,21 +252,21 @@ The library follows a layered architecture:
 └─────────────────┘
 ```
 
-## Installation
+### Installation
 
-### Requirements
+#### Requirements
 
 - **PHP**: 8.4 or higher
 - **Extensions**: `ext-hash`, `ext-mbstring`, `ext-sodium`
 - **Dependencies**: `kduma/binary-tools`, `paragonie/sodium_compat`
 
-### Install with Composer
+#### Install with Composer
 
 ```bash
 composer require kduma/cert-chain
 ```
 
-### Development Dependencies
+#### Development Dependencies
 
 For development and testing:
 
@@ -278,9 +278,9 @@ composer run lint          # Check code style
 composer run fix           # Fix code style
 ```
 
-## Quick Start
+### Quick Start
 
-### Creating Your First Certificate Authority
+#### Creating Your First Certificate Authority
 
 ```php
 <?php
@@ -320,7 +320,7 @@ $rootCert = $rootCert->with(
 );
 ```
 
-### Creating a Signed Certificate
+#### Creating a Signed Certificate
 
 ```php
 // Generate a key pair for an end-entity certificate
@@ -345,7 +345,7 @@ $leafCert = $leafCert->with(
 );
 ```
 
-### Validating Certificate Chains
+#### Validating Certificate Chains
 
 ```php
 use KDuma\CertificateChainOfTrust\{Chain, TrustStore, Validator};
@@ -370,9 +370,9 @@ if ($result->isValid) {
 }
 ```
 
-## Core Concepts
+### Core Concepts
 
-### Certificates
+#### Certificates
 
 Certificates are immutable objects that contain:
 - **Public Key**: Ed25519 public key (32 bytes)
@@ -382,16 +382,16 @@ Certificates are immutable objects that contain:
 - **Flags**: Permissions and capabilities
 - **Signatures**: One or more cryptographic signatures
 
-### Certificate Flags
+#### Certificate Flags
 
 The library uses a hierarchical flag system:
 
-#### CA-Level Flags
+##### CA-Level Flags
 - `ROOT_CA` (0x0001): Self-signed root certificate authority
 - `INTERMEDIATE_CA` (0x0002): Can sign CA-level certificates
 - `CA` (0x0004): Can sign end-entity certificates
 
-#### End-Entity Flags
+##### End-Entity Flags
 - `END_ENTITY_FLAG_1` (0x0100): Generic capability 1
 - `END_ENTITY_FLAG_2` (0x0200): Generic capability 2
 - `END_ENTITY_FLAG_3` (0x0400): Generic capability 3
@@ -401,7 +401,7 @@ The library uses a hierarchical flag system:
 - `END_ENTITY_FLAG_7` (0x4000): Generic capability 7
 - `END_ENTITY_FLAG_8` (0x8000): Generic capability 8
 
-### Flag Inheritance Rules
+#### Flag Inheritance Rules
 
 1. **Signing Authority**:
    - To sign non-CA certificates: signer must have `CA` flag
@@ -411,7 +411,7 @@ The library uses a hierarchical flag system:
    - Certificate's end-entity flags must be a subset of signer's end-entity flags
    - Example: If signer has `FLAG_1 | FLAG_2`, certificate can have `FLAG_1`, `FLAG_2`, or both, but not `FLAG_3`
 
-### Certificate Chains
+#### Certificate Chains
 
 A chain represents a path from an end-entity certificate to a trusted root:
 
@@ -425,18 +425,18 @@ Key requirements:
 - Flag inheritance must be respected throughout the chain
 - Chain must terminate with a self-signed ROOT_CA certificate
 
-### Trust Stores
+#### Trust Stores
 
 Trust stores contain trusted root CA certificates:
 - Only self-signed ROOT_CA certificates allowed
 - All certificates must have unique KeyIds
 - Used as trust anchors during validation
 
-## API Reference
+### API Reference
 
-### Core Classes
+#### Core Classes
 
-#### Certificate
+##### Certificate
 
 ```php
 readonly class Certificate
@@ -494,7 +494,7 @@ $binaryData = $certificate->toBinary();
 $restored = Certificate::fromBinary($binaryData);
 ```
 
-#### Chain
+##### Chain
 
 ```php
 readonly class Chain extends CertificatesContainer
@@ -529,7 +529,7 @@ $paths = $chain->buildPaths($endEntity);
 echo "Found " . count($paths) . " possible certification paths\n";
 ```
 
-#### TrustStore
+##### TrustStore
 
 ```php
 readonly class TrustStore extends CertificatesContainer
@@ -563,7 +563,7 @@ try {
 }
 ```
 
-#### Validator
+##### Validator
 
 ```php
 class Validator
@@ -601,9 +601,9 @@ if (!empty($result->warnings)) {
 }
 ```
 
-### Cryptography Classes
+#### Cryptography Classes
 
-#### Ed25519
+##### Ed25519
 
 ```php
 class Ed25519
@@ -619,7 +619,7 @@ $keyPair = Ed25519::makeKeyPair();
 echo "Generated key pair with KeyId: " . $keyPair->keyId->toString() . "\n";
 ```
 
-#### PrivateKeyPair
+##### PrivateKeyPair
 
 ```php
 readonly class PrivateKeyPair
@@ -640,7 +640,7 @@ public function toBinary(): BinaryString
 public static function fromBinary(BinaryString $data): PrivateKeyPair
 ```
 
-#### PublicKey
+##### PublicKey
 
 ```php
 readonly class PublicKey
@@ -652,7 +652,7 @@ readonly class PublicKey
 }
 ```
 
-#### KeyId
+##### KeyId
 
 ```php
 readonly class KeyId
@@ -663,9 +663,9 @@ readonly class KeyId
 }
 ```
 
-### DTO Classes
+#### DTO Classes
 
-#### CertificateFlag
+##### CertificateFlag
 
 ```php
 enum CertificateFlag: int
@@ -685,7 +685,7 @@ public function toString(): string;
 public static function fromByte(int $byte): self;
 ```
 
-#### CertificateFlagsCollection
+##### CertificateFlagsCollection
 
 ```php
 class CertificateFlagsCollection
@@ -729,7 +729,7 @@ $endEntityFlags = $flags->getEndEntityFlags();
 echo "End-entity flags: " . $endEntityFlags->toString() . "\n";
 ```
 
-#### UserDescriptor
+##### UserDescriptor
 
 ```php
 readonly class UserDescriptor
@@ -741,7 +741,7 @@ readonly class UserDescriptor
 }
 ```
 
-#### DescriptorType
+##### DescriptorType
 
 ```php
 enum DescriptorType: int
@@ -752,7 +752,7 @@ enum DescriptorType: int
 }
 ```
 
-#### Signature
+##### Signature
 
 ```php
 readonly class Signature
@@ -762,7 +762,7 @@ readonly class Signature
 }
 ```
 
-#### ValidationResult
+##### ValidationResult
 
 ```php
 readonly class ValidationResult
@@ -779,9 +779,9 @@ readonly class ValidationResult
 }
 ```
 
-## Advanced Usage
+### Advanced Usage
 
-### Complex Certificate Hierarchies
+#### Complex Certificate Hierarchies
 
 ```php
 // Create a multi-level hierarchy
@@ -796,7 +796,7 @@ $trustStore = new TrustStore([$rootCA]);
 $result = Validator::validateChain($chain, $trustStore);
 ```
 
-### Working with Multiple End-Entity Flags
+#### Working with Multiple End-Entity Flags
 
 ```php
 // Certificate with multiple capabilities
@@ -824,7 +824,7 @@ $specializedCert = new Certificate(
 );
 ```
 
-### Binary Serialization and Storage
+#### Binary Serialization and Storage
 
 ```php
 // Serialize certificates for storage
@@ -853,7 +853,7 @@ $loadedTrustStore = TrustStore::fromBinary(
 );
 ```
 
-### Custom Validation Logic
+#### Custom Validation Logic
 
 ```php
 function validateCertificateForPurpose(Certificate $cert, string $purpose): bool {
@@ -876,7 +876,7 @@ if (validateCertificateForPurpose($certificate, 'document-signing')) {
 }
 ```
 
-### Message Signing and Verification
+#### Message Signing and Verification
 
 ```php
 use KDuma\BinaryTools\BinaryString;
@@ -918,9 +918,9 @@ function verifySignedMessage(array $signedMessage, TrustStore $trustStore): bool
 }
 ```
 
-## Security Model
+### Security Model
 
-### Trust Validation
+#### Trust Validation
 
 The library implements a strict trust model:
 
@@ -930,7 +930,7 @@ The library implements a strict trust model:
 4. **Proper Authority**: Signers must have appropriate flags to sign certificates
 5. **Flag Inheritance**: End-entity flags must be a subset of the signer's flags
 
-### Flag Inheritance Validation
+#### Flag Inheritance Validation
 
 ```
 Root CA (FLAGS: 1,2,3,4)
@@ -942,23 +942,23 @@ End Entity (FLAGS: 1,2) ← Valid: subset of intermediate's flags
 End Entity (FLAGS: 1,5) ← INVALID: flag 5 not in intermediate's flags
 ```
 
-### Unique KeyId Requirement
+#### Unique KeyId Requirement
 
 Every certificate in a chain must have a unique KeyId to prevent:
 - Certificate confusion attacks
 - Bypassing of validation rules
 - Circular signing relationships
 
-### Cryptographic Security
+#### Cryptographic Security
 
 - **Ed25519**: Provides 128-bit security level
 - **KeyId**: SHA-256 hash prevents collision attacks
 - **Signatures**: Each signature is bound to specific certificate data
 - **Self-Signing**: Root CAs must be self-signed to be valid
 
-## Error Handling
+### Error Handling
 
-### Validation Errors
+#### Validation Errors
 
 The library provides detailed error messages for validation failures:
 
@@ -974,7 +974,7 @@ foreach ($result->errors as $error) {
 }
 ```
 
-### Common Error Types
+#### Common Error Types
 
 1. **Structure Errors**:
    - Invalid binary format
@@ -1001,7 +1001,7 @@ foreach ($result->errors as $error) {
    - Chain doesn't terminate in root CA
    - Self-signing validation failure
 
-### Exception Handling
+#### Exception Handling
 
 ```php
 try {
@@ -1023,9 +1023,9 @@ try {
 }
 ```
 
-## Best Practices
+### Best Practices
 
-### Security Best Practices
+#### Security Best Practices
 
 1. **Key Management**:
    ```php
@@ -1066,7 +1066,7 @@ try {
    }
    ```
 
-### Performance Best Practices
+#### Performance Best Practices
 
 1. **Efficient Validation**:
    ```php
@@ -1092,7 +1092,7 @@ try {
    }
    ```
 
-### Development Best Practices
+#### Development Best Practices
 
 1. **Error Handling**:
    ```php
@@ -1129,9 +1129,9 @@ try {
    }
    ```
 
-## Binary Format
+### Binary Format
 
-### Certificate Binary Structure
+#### Certificate Binary Structure
 
 The library uses a custom binary format optimized for Ed25519:
 
@@ -1151,7 +1151,7 @@ Offset | Size | Field | Description
 ...    | ...  | Sigs  | Signature entries
 ```
 
-### Chain Binary Structure
+#### Chain Binary Structure
 
 Chains are stored as concatenated certificates:
 
@@ -1159,7 +1159,7 @@ Chains are stored as concatenated certificates:
 [Certificate 1][Certificate 2][Certificate 3]...
 ```
 
-### Trust Store Binary Structure
+#### Trust Store Binary Structure
 
 ```
 Offset | Size | Field | Description
@@ -1168,7 +1168,7 @@ Offset | Size | Field | Description
 6      | ...  | Certs | Concatenated certificates
 ```
 
-### Working with Binary Data
+#### Working with Binary Data
 
 ```php
 // Low-level binary operations
@@ -1194,9 +1194,9 @@ $restored = Certificate::fromBinary(
 
 ---------------------------------
 
-# Simple Certificate Specification (Complete)
+## Simple Certificate Specification (Complete)
 
-## Common rules
+### Common rules
 - **Container:** Standard Base64 (no line breaks).
 - **Endianness:** All multi-byte integers are **big-endian**.
 - **Strings:** UTF-8, no NUL terminator.
@@ -1205,9 +1205,9 @@ $restored = Certificate::fromBinary(
 
 ---
 
-# Binary layout
+## Binary layout
 
-## Shared header
+### Shared header
 | # | Field | Size | Notes |
 |---|---|---:|---|
 | 1 | **Magic** | 3 | Fixed `08 44 53` (`"CERT"` when Base64). |
@@ -1230,13 +1230,13 @@ The following structure applies to `AlgVer = 0x01` (Ed25519 v1 — fixed sizes, 
 | 13 | **For j in 1..M: SignKeyId** | 16 | Signer’s KeyId (same 16-byte rule). **No length field.** |
 | 14 | **For j: Signature** | 64 | Raw Ed25519 signature. **No length field.** |
 
-## Descriptor Type (1 byte)
+### Descriptor Type (1 byte)
 - `0x01` — Username
 - `0x02` — Email
 - `0x03` — Domain
 > Descriptors are **optional**. Multiple entries (even of same type) allowed.
 
-## Flags (2 bytes, bitmask)
+### Flags (2 bytes, bitmask)
 - `0x0001` — **Root CA**
 - `0x0002` — **Intermediate CA**
 - `0x0004` — **CA**
@@ -1254,9 +1254,9 @@ The following structure applies to `AlgVer = 0x01` (Ed25519 v1 — fixed sizes, 
 
 ---
 
-## Flag semantics and policy
+### Flag semantics and policy
 
-### Roles and combinations
+#### Roles and combinations
 - **Root CA (`0x0001`)**
   - **Must be self‑signed.**
   - May also carry `INTERMEDIATE_CA (0x0002)` and/or `CA (0x0004)`.
@@ -1276,12 +1276,12 @@ The following structure applies to `AlgVer = 0x01` (Ed25519 v1 — fixed sizes, 
 - **No CA flags**
   - Cannot sign any certificates.
 
-### End‑entity flags (non‑CA) inheritance
+#### End‑entity flags (non‑CA) inheritance
 - End‑entity flags are the non‑CA bits (e.g., flags 0x0100 through 0x8000).
 - A subject’s end‑entity flags must be a subset of its issuer’s end‑entity flags:
   - `Subject.EndEntityFlags ⊆ Issuer.EndEntityFlags`.
 
-### Signing rules matrix
+#### Signing rules matrix
 - To sign **non-CA** certificates, the issuer must have `CA`.
 - To sign **CA-level** certificates (with `ROOT_CA`, `INTERMEDIATE_CA`, or `CA` flags), the issuer must have `INTERMEDIATE_CA`.
 
@@ -1299,7 +1299,7 @@ Notes:
 - A root certificate with only `CA` cannot sign CA‑level certificates; it must also include `INTERMEDIATE_CA` to do so.
 - End‑entity flags must obey subset inheritance: `Subject.EndEntity ⊆ Issuer.EndEntity`.
 
-### End‑Entity Inheritance Matrix
+#### End‑Entity Inheritance Matrix
 Only illustrates the subset rule for end‑entity flags. CA‑level signing capability (issuer must have `CA` for non‑CA subjects, `INTERMEDIATE_CA` for CA‑level subjects) still applies separately.
 
 Legend: Flag1 = `0x0100`, Flag2 = `0x0200`, etc.
@@ -1321,7 +1321,7 @@ Notes
 
 ---
 
-## Chain validation algorithm
+### Chain validation algorithm
 
 1. Verify structure and lengths.
 2. Ensure each certificate has at least one signature.
@@ -1336,7 +1336,7 @@ Notes
 
 ---
 
-## Ed25519 details (AlgVer = 0x01)
+### Ed25519 details (AlgVer = 0x01)
 - **Public key:** 32 raw bytes (RFC 8032).
 - **Signature:** 64 raw bytes (RFC 8032).
 - **KeyId:** first 16 bytes of SHA-256 over the 32-byte public key.
@@ -1344,28 +1344,28 @@ Notes
 
 ---
 
-## Chain packaging (concatenation format)
+### Chain packaging (concatenation format)
 
 To allow distributing an entire trust path as **one Base64 string**, a certificate may be followed **immediately** by another full certificate structure (starting again at **Magic**). You can therefore concatenate the whole trust tree (leaf → … → root) into one binary blob and **Base64‑encode the entire concatenation as a single string** (no separators).
 
-### Encoding rules
+#### Encoding rules
 - Each element is a complete **Certificate** as specified for the chosen `AlgVer`.
 - Concatenate certificates **in order from leaf to root**. The final element SHOULD be a **Root CA** (`0x0001`) and MUST be self‑signed.
 - After concatenation, **Base64‑encode the entire byte sequence** (standard Base64, no line breaks).
 - This container is purely a packaging convenience; cryptographic validity is still per‑certificate.
 
-### Parsing rules
+#### Parsing rules
 - Decode Base64 once to obtain the binary blob.
 - Starting at offset 0, parse a **Certificate**. Its **length** is determinable from its internal fields (notably `DescLen`, `UserDescCount` block, and `SigCount`).
 - After finishing one certificate, **if there are remaining bytes**, the next byte MUST be `Magic` (`08 44 53`), and parsing continues for the next certificate.
 - Continue until the end of the byte array. Reject if trailing bytes remain that do not begin with `Magic` or if any certificate is malformed.
 
-### Validation
+#### Validation
 - Build chains using the **SignKeyId → KeyId** linkage between adjacent certificates. When a concatenated parent is present, it **must** match the `SignKeyId` of the child and validate per signature and policy rules.
 - If a required issuer is **not** present in the concatenation, the validator MAY resolve it from a local trust store; however, when present, the concatenated parent MUST be used and must validate.
 - All existing **policy rules** apply (self‑signed roots for `0x0001`, `CA` requirement to issue, subset‑of‑flags, end‑entity authorization, etc.).
 
-### ABNF update
+#### ABNF update
 ```
 CertificateChain = 1*Certificate        ; one or more Certificates back-to-back
 ; Each Certificate is defined as previously for AlgVer = 0x01
@@ -1374,35 +1374,35 @@ CertificateChain = 1*Certificate        ; one or more Certificates back-to-back
 
 ---
 
-## TrustStore binary format
+### TrustStore binary format
 
 A TrustStore is a container for trusted root CA certificates used during chain validation. It has its own binary serialization format for storage and transport.
 
-### Binary layout
+#### Binary layout
 
 | # | Field | Size | Notes |
 |---|---|---:|---|
 | 1 | **Magic** | 6 | Fixed `4e bb ac b5 e7 4a` (TrustStore identifier). |
 | 2 | **Certificates** | Variable | Zero or more complete Certificate structures concatenated back-to-back. |
 
-### Parsing rules
+#### Parsing rules
 
 - Decode the magic bytes to identify this as a TrustStore.
 - Parse certificates sequentially using the standard Certificate parsing rules until end of data.
 - Each certificate's length is determined from its internal structure (no explicit count or length fields).
 
-### Validation rules
+#### Validation rules
 
 - **Only root CA certificates**: All certificates in a TrustStore must have the `ROOT_CA` flag and be self-signed.
 - **Unique KeyIds**: All certificates must have unique KeyIds within the TrustStore.
 - **Self-signing validation**: Each certificate's self-signature must be cryptographically valid.
 
-### Encoding rules
+#### Encoding rules
 
 - The entire TrustStore binary structure is **Base64-encoded** for text transport.
 - Each Certificate follows the standard certificate binary format defined above.
 - Certificates are stored in the order they were added to the TrustStore.
 
-### Usage
+#### Usage
 
 TrustStores are used by the validator to determine which root certificates are trusted during chain validation. A certificate chain is only considered valid if it terminates in a root CA certificate present in the provided TrustStore.
