@@ -404,12 +404,12 @@ The library uses a hierarchical flag system:
 #### Flag Inheritance Rules
 
 1. **Signing Authority**:
-   - To sign non-CA certificates: signer must have `CA` flag
-   - To sign CA-level certificates: signer must have `INTERMEDIATE_CA` flag
+    - To sign non-CA certificates: signer must have `CA` flag
+    - To sign CA-level certificates: signer must have `INTERMEDIATE_CA` flag
 
 2. **End-Entity Inheritance**:
-   - Certificate's end-entity flags must be a subset of signer's end-entity flags
-   - Example: If signer has `FLAG_1 | FLAG_2`, certificate can have `FLAG_1`, `FLAG_2`, or both, but not `FLAG_3`
+    - Certificate's end-entity flags must be a subset of signer's end-entity flags
+    - Example: If signer has `FLAG_1 | FLAG_2`, certificate can have `FLAG_1`, `FLAG_2`, or both, but not `FLAG_3`
 
 #### Certificate Chains
 
@@ -704,7 +704,6 @@ public function has(CertificateFlag $flag): bool;
 public function hasRootCA(): bool;
 public function hasIntermediateCA(): bool;
 public function hasCA(): bool;
-public function hasEndEntityFlag1(): bool; // through hasEndEntityFlag8()
 public function isCA(): bool;
 public function getEndEntityFlags(): CertificateFlagsCollection;
 public function getCAFlags(): CertificateFlagsCollection;
@@ -861,10 +860,10 @@ function validateCertificateForPurpose(Certificate $cert, string $purpose): bool
     $flags = $cert->flags;
 
     return match ($purpose) {
-        'document-signing' => $flags->hasEndEntityFlag1(),
-        'code-signing' => $flags->hasEndEntityFlag2(),
-        'email-encryption' => $flags->hasEndEntityFlag3(),
-        'server-auth' => $flags->hasEndEntityFlag4(),
+        'document-signing' => $flags->has(CertificateFlag::END_ENTITY_FLAG_1),
+        'code-signing' => $flags->has(CertificateFlag::END_ENTITY_FLAG_2),
+        'email-encryption' => $flags->has(CertificateFlag::END_ENTITY_FLAG_3),
+        'server-auth' => $flags->has(CertificateFlag::END_ENTITY_FLAG_4),
         default => false
     };
 }
@@ -977,29 +976,29 @@ foreach ($result->errors as $error) {
 #### Common Error Types
 
 1. **Structure Errors**:
-   - Invalid binary format
-   - Missing required fields
-   - Invalid lengths
+    - Invalid binary format
+    - Missing required fields
+    - Invalid lengths
 
 2. **Cryptographic Errors**:
-   - Invalid signatures
-   - KeyId mismatch with public key
-   - Signature verification failure
+    - Invalid signatures
+    - KeyId mismatch with public key
+    - Signature verification failure
 
 3. **Authority Errors**:
-   - Insufficient signing authority
-   - Missing CA flags
-   - Invalid flag combinations
+    - Insufficient signing authority
+    - Missing CA flags
+    - Invalid flag combinations
 
 4. **Inheritance Errors**:
-   - End-entity flags not subset of signer
-   - Duplicate KeyIds in chain
-   - Invalid certificate hierarchy
+    - End-entity flags not subset of signer
+    - Duplicate KeyIds in chain
+    - Invalid certificate hierarchy
 
 5. **Trust Errors**:
-   - Root CA not in trust store
-   - Chain doesn't terminate in root CA
-   - Self-signing validation failure
+    - Root CA not in trust store
+    - Chain doesn't terminate in root CA
+    - Self-signing validation failure
 
 #### Exception Handling
 
@@ -1258,28 +1257,28 @@ The following structure applies to `AlgVer = 0x01` (Ed25519 v1 — fixed sizes, 
 
 #### Roles and combinations
 - **Root CA (`0x0001`)**
-  - **Must be self‑signed.**
-  - May also carry `INTERMEDIATE_CA (0x0002)` and/or `CA (0x0004)`.
-  - The ability to sign depends on the presence of `INTERMEDIATE_CA` and/or `CA` flags (see signing rules below), not on `ROOT_CA` alone.
+    - **Must be self‑signed.**
+    - May also carry `INTERMEDIATE_CA (0x0002)` and/or `CA (0x0004)`.
+    - The ability to sign depends on the presence of `INTERMEDIATE_CA` and/or `CA` flags (see signing rules below), not on `ROOT_CA` alone.
 
 - **Intermediate CA (`0x0002`)**
-  - This flag **alone** grants authority to sign CA-level certificates.
-  - When combined with `CA`, allows signing of both CA-level and non-CA certificates.
+    - This flag **alone** grants authority to sign CA-level certificates.
+    - When combined with `CA`, allows signing of both CA-level and non-CA certificates.
 
 - **CA (`0x0004`)**
-  - Required to sign non-CA certificates.
-  - Without `INTERMEDIATE_CA`, may sign only non‑CA certificates (no `ROOT_CA`, `INTERMEDIATE_CA`, or `CA` flags on the subject).
+    - Required to sign non-CA certificates.
+    - Without `INTERMEDIATE_CA`, may sign only non‑CA certificates (no `ROOT_CA`, `INTERMEDIATE_CA`, or `CA` flags on the subject).
 
 - **Combined `INTERMEDIATE_CA | CA`**
-  - Authorized to sign both CA‑level certificates (because of `INTERMEDIATE_CA`) and non‑CA certificates (because of `CA`).
+    - Authorized to sign both CA‑level certificates (because of `INTERMEDIATE_CA`) and non‑CA certificates (because of `CA`).
 
 - **No CA flags**
-  - Cannot sign any certificates.
+    - Cannot sign any certificates.
 
 #### End‑entity flags (non‑CA) inheritance
 - End‑entity flags are the non‑CA bits (e.g., flags 0x0100 through 0x8000).
 - A subject’s end‑entity flags must be a subset of its issuer’s end‑entity flags:
-  - `Subject.EndEntityFlags ⊆ Issuer.EndEntityFlags`.
+    - `Subject.EndEntityFlags ⊆ Issuer.EndEntityFlags`.
 
 #### Signing rules matrix
 - To sign **non-CA** certificates, the issuer must have `CA`.
