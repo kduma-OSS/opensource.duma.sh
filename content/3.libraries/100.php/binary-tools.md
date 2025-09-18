@@ -33,7 +33,7 @@ composer require kduma/binary-tools
 
 - **Safe binary data manipulation** with bounds checking
 - **UTF-8 string validation** for text data
-- **Multiple encoding formats** (hex, base64)
+- **Multiple encoding formats** (hex, base64, base32)
 - **Secure string comparison** using `hash_equals()`
 - **Big-endian integer support** for network protocols
 - **Position tracking** for streaming operations
@@ -52,6 +52,7 @@ Stream-like writer for building binary data structures.
 
 Stream-like reader for parsing binary data with position tracking.
 
+
 ## Usage Examples
 
 ### BinaryString
@@ -64,6 +65,7 @@ $binary = BinaryString::fromString("\x48\x65\x6c\x6c\x6f");
 $fromString = BinaryString::fromString("Hello");
 $fromHex = BinaryString::fromHex("48656c6c6f");
 $fromBase64 = BinaryString::fromBase64("SGVsbG8=");
+$fromBase32 = BinaryString::fromBase32("JBSWY3DP");
 
 // All represent "Hello"
 echo $binary->toString(); // "Hello"
@@ -71,6 +73,7 @@ echo $binary->toString(); // "Hello"
 // Convert to different formats
 echo $binary->toHex();    // "48656c6c6f"
 echo $binary->toBase64(); // "SGVsbG8="
+echo $binary->toBase32(); // "JBSWY3DP"
 echo $binary->size();     // 5
 
 // Secure comparison
@@ -216,11 +219,13 @@ for ($i = 0; $i < $userCount; $i++) {
 | `toString(): string` | Get raw binary data |
 | `toHex(): string` | Convert to hexadecimal string |
 | `toBase64(): string` | Convert to base64 string |
+| `toBase32(string $alphabet = Base32::DEFAULT_ALPHABET): string` | Convert to base32 string |
 | `size(): int` | Get byte length |
 | `equals(BinaryString $other): bool` | Secure comparison |
 | `fromString(string $value): static` | Create from string |
 | `fromHex(string $hex): static` | Create from hex string |
 | `fromBase64(string $base64): static` | Create from base64 |
+| `fromBase32(string $base32, string $alphabet = Base32::DEFAULT_ALPHABET): static` | Create from base32 string |
 
 ### BinaryWriter
 
@@ -257,11 +262,12 @@ for ($i = 0; $i < $userCount; $i++) {
 | `seek(int $position): void` | Seek to position |
 | `skip(int $count): void` | Skip N bytes |
 
+
 ## Error Handling
 
 The library throws appropriate exceptions for error conditions:
 
-- `InvalidArgumentException` - Invalid parameters (e.g., byte values > 255)
+- `InvalidArgumentException` - Invalid parameters (e.g., byte values > 255, invalid Base32 alphabet, invalid Base32 characters)
 - `RuntimeException` - Runtime errors (e.g., reading past end of data, invalid UTF-8)
 
 ```php
