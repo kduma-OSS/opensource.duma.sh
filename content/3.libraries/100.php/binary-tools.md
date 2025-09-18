@@ -495,3 +495,874 @@ try {
     echo "Error: " . $e->getMessage();
 }
 ```
+
+## Binary Tools for PHP - API Reference
+
+This documentation is auto-generated from the source code.
+
+### Table of Contents
+
+* [`\KDuma\BinaryTools\BinaryString`](#BinaryString)
+    * [`BinaryString::$value`](#BinaryStringvalue)
+    * [`BinaryString::toString()`](#BinaryStringtoString)
+    * [`BinaryString::toHex()`](#BinaryStringtoHex)
+    * [`BinaryString::toBase64()`](#BinaryStringtoBase64)
+    * [`BinaryString::toBase32(...)`](#BinaryStringtoBase32)
+    * [`BinaryString::size()`](#BinaryStringsize)
+    * [`BinaryString::fromString(...)`](#BinaryStringfromString)
+    * [`BinaryString::fromHex(...)`](#BinaryStringfromHex)
+    * [`BinaryString::fromBase64(...)`](#BinaryStringfromBase64)
+    * [`BinaryString::fromBase32(...)`](#BinaryStringfromBase32)
+    * [`BinaryString::equals(...)`](#BinaryStringequals)
+    * [`BinaryString::contains(...)`](#BinaryStringcontains)
+* [`\KDuma\BinaryTools\BinaryWriter`](#BinaryWriter)
+    * [`BinaryWriter::getBuffer()`](#BinaryWritergetBuffer)
+    * [`BinaryWriter::getLength()`](#BinaryWritergetLength)
+    * [`BinaryWriter::reset()`](#BinaryWriterreset)
+    * [`BinaryWriter::writeByte(...)`](#BinaryWriterwriteByte)
+    * [`BinaryWriter::writeBytes(...)`](#BinaryWriterwriteBytes)
+    * [`BinaryWriter::writeBytesWith(...)`](#BinaryWriterwriteBytesWith)
+    * [`BinaryWriter::writeInt(...)`](#BinaryWriterwriteInt)
+    * [`BinaryWriter::writeString(...)`](#BinaryWriterwriteString)
+    * [`BinaryWriter::writeStringWith(...)`](#BinaryWriterwriteStringWith)
+    * [`BinaryWriter::writeUint16BE(...)`](#BinaryWriterwriteUint16BE)
+    * [`BinaryWriter::writeBytesWithLength(...)`](#BinaryWriterwriteBytesWithLength)
+    * [`BinaryWriter::writeStringWithLength(...)`](#BinaryWriterwriteStringWithLength)
+* [`\KDuma\BinaryTools\BinaryReader`](#BinaryReader)
+    * [`BinaryReader::$length`](#BinaryReaderlength)
+    * [`BinaryReader::$data`](#BinaryReaderdata)
+    * [`BinaryReader::$position`](#BinaryReaderposition)
+    * [`BinaryReader::$remaining_bytes`](#BinaryReaderremaining_bytes)
+    * [`BinaryReader::$has_more_data`](#BinaryReaderhas_more_data)
+    * [`BinaryReader::$remaining_data`](#BinaryReaderremaining_data)
+    * [`BinaryReader::readByte()`](#BinaryReaderreadByte)
+    * [`BinaryReader::readBytes(...)`](#BinaryReaderreadBytes)
+    * [`BinaryReader::readBytesWith(...)`](#BinaryReaderreadBytesWith)
+    * [`BinaryReader::readInt(...)`](#BinaryReaderreadInt)
+    * [`BinaryReader::readString(...)`](#BinaryReaderreadString)
+    * [`BinaryReader::readStringWith(...)`](#BinaryReaderreadStringWith)
+    * [`BinaryReader::peekByte()`](#BinaryReaderpeekByte)
+    * [`BinaryReader::peekBytes(...)`](#BinaryReaderpeekBytes)
+    * [`BinaryReader::skip(...)`](#BinaryReaderskip)
+    * [`BinaryReader::seek(...)`](#BinaryReaderseek)
+    * [`BinaryReader::readUint16BE()`](#BinaryReaderreadUint16BE)
+    * [`BinaryReader::readBytesWithLength(...)`](#BinaryReaderreadBytesWithLength)
+    * [`BinaryReader::readStringWithLength(...)`](#BinaryReaderreadStringWithLength)
+* [Enums](#enums)
+    * [`\KDuma\BinaryTools\IntType`](#IntType)
+    * [`\KDuma\BinaryTools\Terminator`](#Terminator)
+
+### BinaryString
+
+**Namespace:** `KDuma\BinaryTools`
+
+**Type:** Final Class
+
+#### Properties
+
+#### `$value`
+
+```php
+string $value
+```
+
+--------------------
+
+#### Methods
+
+##### toString()
+
+```php
+\KDuma\BinaryTools\BinaryString::toString(): string
+```
+
+Returns the raw binary value as a PHP string.
+
+**Returns:** <code>string</code>
+
+--------------------
+
+##### toHex()
+
+```php
+\KDuma\BinaryTools\BinaryString::toHex(): string
+```
+
+Serialises the binary value into an ASCII hexadecimal string.
+
+**Returns:** <code>string</code>
+
+--------------------
+
+##### toBase64()
+
+```php
+\KDuma\BinaryTools\BinaryString::toBase64(): string
+```
+
+Serialises the binary value using Base64 encoding.
+
+**Returns:** <code>string</code>
+
+--------------------
+
+##### toBase32(...)
+
+```php
+\KDuma\BinaryTools\BinaryString::toBase32(
+    string $alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567"
+): string
+```
+
+Returns a Base32-encoded string representation of the binary value.
+
+| Param | Type | Description |
+| ----- | ---- | ----------- |
+| **`alphabet`** | <code>string</code> (optional) | Alphabet to use when encoding. |
+
+**Returns:** <code>string</code>
+
+--------------------
+
+##### size()
+
+```php
+\KDuma\BinaryTools\BinaryString::size(): int
+```
+
+Returns the number of bytes contained in the value.
+
+**Returns:** <code>int</code>
+
+--------------------
+
+##### fromString(...)
+
+```php
+\KDuma\BinaryTools\BinaryString::fromString(
+    string $value
+): static
+```
+
+Creates a BinaryString from an existing PHP string without validation.
+
+| Param | Type | Description |
+| ----- | ---- | ----------- |
+| **`value`** | <code>string</code> | Raw binary data. |
+
+**Returns:** <code>static</code>
+
+--------------------
+
+##### fromHex(...)
+
+```php
+\KDuma\BinaryTools\BinaryString::fromHex(
+    string $hex
+): static
+```
+
+Creates a BinaryString from a hexadecimal dump.
+
+| Param | Type | Description |
+| ----- | ---- | ----------- |
+| **`hex`** | <code>string</code> | Hexadecimal representation of the data. |
+
+**Returns:** <code>static</code>
+
+--------------------
+
+##### fromBase64(...)
+
+```php
+\KDuma\BinaryTools\BinaryString::fromBase64(
+    string $base64
+): static
+```
+
+Creates a BinaryString from a Base64-encoded payload.
+
+| Param | Type | Description |
+| ----- | ---- | ----------- |
+| **`base64`** | <code>string</code> | Base64 representation of the data. |
+
+**Returns:** <code>static</code>
+
+--------------------
+
+##### fromBase32(...)
+
+```php
+\KDuma\BinaryTools\BinaryString::fromBase32(
+    string $base32,
+    string $alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567"
+): static
+```
+
+Decodes a Base32-encoded string to a BinaryString instance using the specified alphabet.
+
+| Param | Type | Description |
+| ----- | ---- | ----------- |
+| **`base32`** | <code>string</code> | Base32 payload to decode. |
+| **`alphabet`** | <code>string</code> (optional) | Alphabet that was used during encoding. |
+
+**Returns:** <code>static</code>
+
+--------------------
+
+##### equals(...)
+
+```php
+\KDuma\BinaryTools\BinaryString::equals(
+    \KDuma\BinaryTools\BinaryString $other
+): bool
+```
+
+Performs a timing-safe comparison with another BinaryString.
+
+| Param | Type | Description |
+| ----- | ---- | ----------- |
+| **`other`** | <code>\KDuma\BinaryTools\BinaryString</code> | Value to compare against. |
+
+**Returns:** <code>bool</code>
+
+--------------------
+
+##### contains(...)
+
+```php
+\KDuma\BinaryTools\BinaryString::contains(
+    \KDuma\BinaryTools\BinaryString $needle
+): bool
+```
+
+Determines whether the provided binary fragment appears in the value.
+
+| Param | Type | Description |
+| ----- | ---- | ----------- |
+| **`needle`** | <code>\KDuma\BinaryTools\BinaryString</code> | Fragment to look for. |
+
+**Returns:** <code>bool</code>
+
+--------------------
+
+---
+
+### BinaryWriter
+
+**Namespace:** `KDuma\BinaryTools`
+
+**Type:** Final Class
+
+#### Methods
+
+##### getBuffer()
+
+```php
+\KDuma\BinaryTools\BinaryWriter::getBuffer(): \KDuma\BinaryTools\BinaryString
+```
+
+Returns the buffered bytes as a BinaryString without resetting the writer.
+
+**Returns:** <code>\KDuma\BinaryTools\BinaryString</code>
+
+--------------------
+
+##### getLength()
+
+```php
+\KDuma\BinaryTools\BinaryWriter::getLength(): int
+```
+
+Returns the number of bytes written so far.
+
+**Returns:** <code>int</code>
+
+--------------------
+
+##### reset()
+
+```php
+\KDuma\BinaryTools\BinaryWriter::reset(): void
+```
+
+Clears the buffer so subsequent writes start from an empty state.
+
+**Returns:** <code>void</code>
+
+--------------------
+
+##### writeByte(...)
+
+```php
+\KDuma\BinaryTools\BinaryWriter::writeByte(
+    int $byte
+): self
+```
+
+Appends a single byte value (0-255) to the buffer.
+
+**Throws:**  \InvalidArgumentException When the value is outside the valid byte range.
+
+| Param | Type | Description |
+| ----- | ---- | ----------- |
+| **`byte`** | <code>int</code> | Byte value to write. |
+
+**Returns:** <code>self</code>
+
+--------------------
+
+##### writeBytes(...)
+
+```php
+\KDuma\BinaryTools\BinaryWriter::writeBytes(
+    \KDuma\BinaryTools\BinaryString $bytes
+): self
+```
+
+Appends raw bytes to the buffer.
+
+| Param | Type | Description |
+| ----- | ---- | ----------- |
+| **`bytes`** | <code>\KDuma\BinaryTools\BinaryString</code> | Data to append. |
+
+**Returns:** <code>self</code>
+
+--------------------
+
+##### writeBytesWith(...)
+
+```php
+\KDuma\BinaryTools\BinaryWriter::writeBytesWith(
+    \KDuma\BinaryTools\BinaryString $bytes,
+    ?\KDuma\BinaryTools\IntType $length = null,
+    \KDuma\BinaryTools\Terminator|\KDuma\BinaryTools\BinaryString|null $terminator = null,
+    \KDuma\BinaryTools\Terminator|\KDuma\BinaryTools\BinaryString|null $optional_terminator = null,
+    \KDuma\BinaryTools\Terminator|\KDuma\BinaryTools\BinaryString|null $padding = null,
+    ?int $padding_size = null
+): self
+```
+
+Writes variable-length data using one of the available strategies: typed length, terminator or fixed padding.
+
+**Throws:**  \InvalidArgumentException When configuration is invalid or the data violates the chosen mode.
+
+| Param | Type | Description |
+| ----- | ---- | ----------- |
+| **`bytes`** | <code>\KDuma\BinaryTools\BinaryString</code> | Data to write. |
+| **`length`** | <code>\?KDuma\BinaryTools\IntType</code> (optional) | Integer type describing the length field when using length mode. |
+| **`terminator`** | <code>\KDuma\BinaryTools\Terminator\|KDuma\BinaryTools\BinaryString\|null</code> (optional) | Mandatory terminator sequence. |
+| **`optional_terminator`** | <code>\KDuma\BinaryTools\Terminator\|KDuma\BinaryTools\BinaryString\|null</code> (optional) | Optional terminator sequence (currently emits a notice and behaves like $terminator). |
+| **`padding`** | <code>\KDuma\BinaryTools\Terminator\|KDuma\BinaryTools\BinaryString\|null</code> (optional) | Single-byte padding value for fixed-width fields. |
+| **`padding_size`** | <code>?int</code> (optional) | Total field width when padding is enabled. |
+
+**Returns:** <code>self</code>
+
+--------------------
+
+##### writeInt(...)
+
+```php
+\KDuma\BinaryTools\BinaryWriter::writeInt(
+    \KDuma\BinaryTools\IntType $type,
+    int $value
+): self
+```
+
+Serialises an integer according to the provided {@see IntType} definition.
+
+**Throws:**  \RuntimeException When the type is unsupported on this platform.
+
+**Throws:**  \InvalidArgumentException When the value lies outside the type's range.
+
+| Param | Type | Description |
+| ----- | ---- | ----------- |
+| **`type`** | <code>\KDuma\BinaryTools\IntType</code> | Integer description covering width, signedness, and byte order. |
+| **`value`** | <code>int</code> | Value to serialise. |
+
+**Returns:** <code>self</code>
+
+--------------------
+
+##### writeString(...)
+
+```php
+\KDuma\BinaryTools\BinaryWriter::writeString(
+    \KDuma\BinaryTools\BinaryString $string
+): self
+```
+
+Writes a UTF-8 validated string without terminator or padding.
+
+**Throws:**  \InvalidArgumentException When the data is not valid UTF-8.
+
+| Param | Type | Description |
+| ----- | ---- | ----------- |
+| **`string`** | <code>\KDuma\BinaryTools\BinaryString</code> | UTF-8 string data to emit. |
+
+**Returns:** <code>self</code>
+
+--------------------
+
+##### writeStringWith(...)
+
+```php
+\KDuma\BinaryTools\BinaryWriter::writeStringWith(
+    \KDuma\BinaryTools\BinaryString $string,
+    ?\KDuma\BinaryTools\IntType $length = null,
+    \KDuma\BinaryTools\Terminator|\KDuma\BinaryTools\BinaryString|null $terminator = null,
+    \KDuma\BinaryTools\Terminator|\KDuma\BinaryTools\BinaryString|null $optional_terminator = null,
+    \KDuma\BinaryTools\Terminator|\KDuma\BinaryTools\BinaryString|null $padding = null,
+    ?int $padding_size = null
+): self
+```
+
+Writes a UTF-8 string using one of the variable-length strategies.
+
+**Throws:**  \InvalidArgumentException When configuration is invalid or the string is not UTF-8.
+
+| Param | Type | Description |
+| ----- | ---- | ----------- |
+| **`string`** | <code>\KDuma\BinaryTools\BinaryString</code> | UTF-8 string data to emit. |
+| **`length`** | <code>\?KDuma\BinaryTools\IntType</code> (optional) | Integer type describing the length field when using length mode. |
+| **`terminator`** | <code>\KDuma\BinaryTools\Terminator\|KDuma\BinaryTools\BinaryString\|null</code> (optional) | Mandatory terminator sequence. |
+| **`optional_terminator`** | <code>\KDuma\BinaryTools\Terminator\|KDuma\BinaryTools\BinaryString\|null</code> (optional) | Optional terminator sequence (currently emits a notice and behaves like $terminator). |
+| **`padding`** | <code>\KDuma\BinaryTools\Terminator\|KDuma\BinaryTools\BinaryString\|null</code> (optional) | Single-byte padding value for fixed-width fields. |
+| **`padding_size`** | <code>?int</code> (optional) | Total field width when padding is enabled. |
+
+**Returns:** <code>self</code>
+
+--------------------
+
+##### writeUint16BE(...)
+
+```php
+\KDuma\BinaryTools\BinaryWriter::writeUint16BE(
+    int $value
+): self
+```
+
+| Param | Type | Description |
+| ----- | ---- | ----------- |
+| **`value`** | <code>int</code> | Unsigned 16-bit value. |
+
+**Returns:** <code>self</code>
+
+--------------------
+
+##### writeBytesWithLength(...)
+
+```php
+\KDuma\BinaryTools\BinaryWriter::writeBytesWithLength(
+    \KDuma\BinaryTools\BinaryString $bytes,
+    bool $use16BitLength = false
+): self
+```
+
+| Param | Type | Description |
+| ----- | ---- | ----------- |
+| **`bytes`** | <code>\KDuma\BinaryTools\BinaryString</code> | Payload to write. |
+| **`use16BitLength`** | <code>bool</code> (optional) | When true, emits a 16-bit length; otherwise an 8-bit length. |
+
+**Returns:** <code>self</code>
+
+--------------------
+
+##### writeStringWithLength(...)
+
+```php
+\KDuma\BinaryTools\BinaryWriter::writeStringWithLength(
+    \KDuma\BinaryTools\BinaryString $string,
+    bool $use16BitLength = false
+): self
+```
+
+| Param | Type | Description |
+| ----- | ---- | ----------- |
+| **`string`** | <code>\KDuma\BinaryTools\BinaryString</code> | UTF-8 string to write. |
+| **`use16BitLength`** | <code>bool</code> (optional) | When true, emits a 16-bit length; otherwise an 8-bit length. |
+
+**Returns:** <code>self</code>
+
+--------------------
+
+---
+
+### BinaryReader
+
+**Namespace:** `KDuma\BinaryTools`
+
+**Type:** Final Class
+
+#### Properties
+
+#### `$length`
+
+```php
+int $length
+```
+
+--------------------
+
+#### `$data`
+
+```php
+KDuma\BinaryTools\BinaryString $data
+```
+
+--------------------
+
+#### `$position`
+
+```php
+int $position
+```
+
+--------------------
+
+#### `$remaining_bytes`
+
+```php
+int $remaining_bytes
+```
+
+--------------------
+
+#### `$has_more_data`
+
+```php
+bool $has_more_data
+```
+
+--------------------
+
+#### `$remaining_data`
+
+```php
+KDuma\BinaryTools\BinaryString $remaining_data
+```
+
+--------------------
+
+#### Methods
+
+##### readByte()
+
+```php
+\KDuma\BinaryTools\BinaryReader::readByte(): int
+```
+
+Reads the next byte from the stream.
+
+**Throws:**  RuntimeException When no more data is available.
+
+**Returns:** <code>int</code>
+
+--------------------
+
+##### readBytes(...)
+
+```php
+\KDuma\BinaryTools\BinaryReader::readBytes(
+    int $count
+): \KDuma\BinaryTools\BinaryString
+```
+
+Reads exactly $count bytes from the current position.
+
+**Throws:**  RuntimeException When fewer than $count bytes remain.
+
+| Param | Type | Description |
+| ----- | ---- | ----------- |
+| **`count`** | <code>int</code> | Number of bytes to read. |
+
+**Returns:** <code>\KDuma\BinaryTools\BinaryString</code>
+
+--------------------
+
+##### readBytesWith(...)
+
+```php
+\KDuma\BinaryTools\BinaryReader::readBytesWith(
+    ?\KDuma\BinaryTools\IntType $length = null,
+    \KDuma\BinaryTools\Terminator|\KDuma\BinaryTools\BinaryString|null $terminator = null,
+    \KDuma\BinaryTools\Terminator|\KDuma\BinaryTools\BinaryString|null $optional_terminator = null,
+    \KDuma\BinaryTools\Terminator|\KDuma\BinaryTools\BinaryString|null $padding = null,
+    ?int $padding_size = null
+): \KDuma\BinaryTools\BinaryString
+```
+
+Reads variable-length data using exactly one of the supplied strategies (length, terminator, optional terminator, or padding).
+
+**Throws:**  \InvalidArgumentException When mutually exclusive modes are combined or configuration is invalid.
+
+**Throws:**  RuntimeException When the data violates the expectations of the chosen mode.
+
+| Param | Type | Description |
+| ----- | ---- | ----------- |
+| **`length`** | <code>\?KDuma\BinaryTools\IntType</code> (optional) | Integer type that stores the byte length when using length mode. |
+| **`terminator`** | <code>\KDuma\BinaryTools\Terminator\|KDuma\BinaryTools\BinaryString\|null</code> (optional) | Required terminator sequence when using terminator mode. |
+| **`optional_terminator`** | <code>\KDuma\BinaryTools\Terminator\|KDuma\BinaryTools\BinaryString\|null</code> (optional) | Terminator sequence that may be absent (fully consumes buffer when missing). |
+| **`padding`** | <code>\KDuma\BinaryTools\Terminator\|KDuma\BinaryTools\BinaryString\|null</code> (optional) | Single-byte padding value used for fixed-width fields. |
+| **`padding_size`** | <code>?int</code> (optional) | Total field width in bytes when padding is enabled. |
+
+**Returns:** <code>\KDuma\BinaryTools\BinaryString</code>
+
+--------------------
+
+##### readInt(...)
+
+```php
+\KDuma\BinaryTools\BinaryReader::readInt(
+    \KDuma\BinaryTools\IntType $type
+): int
+```
+
+Reads an integer using the provided {@see IntType} definition.
+
+**Throws:**  RuntimeException When the type is unsupported or the value cannot be represented.
+
+| Param | Type | Description |
+| ----- | ---- | ----------- |
+| **`type`** | <code>\KDuma\BinaryTools\IntType</code> | Integer description covering width, signedness, and byte order. |
+
+**Returns:** <code>int</code>
+
+--------------------
+
+##### readString(...)
+
+```php
+\KDuma\BinaryTools\BinaryReader::readString(
+    int $length
+): \KDuma\BinaryTools\BinaryString
+```
+
+Reads a fixed-length UTF-8 string.
+
+**Throws:**  RuntimeException When insufficient data remains or decoding fails.
+
+| Param | Type | Description |
+| ----- | ---- | ----------- |
+| **`length`** | <code>int</code> | Number of bytes to consume. |
+
+**Returns:** <code>\KDuma\BinaryTools\BinaryString</code>
+
+--------------------
+
+##### readStringWith(...)
+
+```php
+\KDuma\BinaryTools\BinaryReader::readStringWith(
+    ?\KDuma\BinaryTools\IntType $length = null,
+    \KDuma\BinaryTools\Terminator|\KDuma\BinaryTools\BinaryString|null $terminator = null,
+    \KDuma\BinaryTools\Terminator|\KDuma\BinaryTools\BinaryString|null $optional_terminator = null,
+    \KDuma\BinaryTools\Terminator|\KDuma\BinaryTools\BinaryString|null $padding = null,
+    ?int $padding_size = null
+): \KDuma\BinaryTools\BinaryString
+```
+
+Reads a UTF-8 string using one of the variable-length strategies (length, terminator, optional terminator, or padding).
+
+**Throws:**  \InvalidArgumentException When configuration is invalid.
+
+**Throws:**  RuntimeException When decoding fails or the data violates mode rules.
+
+| Param | Type | Description |
+| ----- | ---- | ----------- |
+| **`length`** | <code>\?KDuma\BinaryTools\IntType</code> (optional) | Integer type specifying the length field when using length mode. |
+| **`terminator`** | <code>\KDuma\BinaryTools\Terminator\|KDuma\BinaryTools\BinaryString\|null</code> (optional) | Required terminator. |
+| **`optional_terminator`** | <code>\KDuma\BinaryTools\Terminator\|KDuma\BinaryTools\BinaryString\|null</code> (optional) | Optional terminator. |
+| **`padding`** | <code>\KDuma\BinaryTools\Terminator\|KDuma\BinaryTools\BinaryString\|null</code> (optional) | Single-byte padding value for fixed-width fields. |
+| **`padding_size`** | <code>?int</code> (optional) | Total field width when padding is enabled. |
+
+**Returns:** <code>\KDuma\BinaryTools\BinaryString</code>
+
+--------------------
+
+##### peekByte()
+
+```php
+\KDuma\BinaryTools\BinaryReader::peekByte(): int
+```
+
+Returns the next byte without advancing the read pointer.
+
+**Throws:**  RuntimeException When no more data remains.
+
+**Returns:** <code>int</code> - int Unsigned byte value.
+
+--------------------
+
+##### peekBytes(...)
+
+```php
+\KDuma\BinaryTools\BinaryReader::peekBytes(
+    int $count
+): \KDuma\BinaryTools\BinaryString
+```
+
+Returns the next $count bytes without advancing the read pointer.
+
+**Throws:**  RuntimeException When fewer than $count bytes remain.
+
+| Param | Type | Description |
+| ----- | ---- | ----------- |
+| **`count`** | <code>int</code> | Number of bytes to inspect. |
+
+**Returns:** <code>\KDuma\BinaryTools\BinaryString</code>
+
+--------------------
+
+##### skip(...)
+
+```php
+\KDuma\BinaryTools\BinaryReader::skip(
+    int $count
+): void
+```
+
+Advances the read pointer by $count bytes.
+
+**Throws:**  RuntimeException When insufficient data remains.
+
+| Param | Type | Description |
+| ----- | ---- | ----------- |
+| **`count`** | <code>int</code> | Number of bytes to skip. |
+
+**Returns:** <code>void</code>
+
+--------------------
+
+##### seek(...)
+
+```php
+\KDuma\BinaryTools\BinaryReader::seek(
+    int $position
+): void
+```
+
+Moves the read pointer to an absolute offset inside the buffer.
+
+**Throws:**  RuntimeException When the target lies outside the buffer.
+
+| Param | Type | Description |
+| ----- | ---- | ----------- |
+| **`position`** | <code>int</code> | Zero-based offset to seek to. |
+
+**Returns:** <code>void</code>
+
+--------------------
+
+##### readUint16BE()
+
+```php
+\KDuma\BinaryTools\BinaryReader::readUint16BE(): int
+```
+
+**Returns:** <code>int</code>
+
+--------------------
+
+##### readBytesWithLength(...)
+
+```php
+\KDuma\BinaryTools\BinaryReader::readBytesWithLength(
+    bool $use16BitLength = false
+): \KDuma\BinaryTools\BinaryString
+```
+
+| Param | Type | Description |
+| ----- | ---- | ----------- |
+| **`use16BitLength`** | <code>bool</code> (optional) | When true, reads a 16-bit length; otherwise an 8-bit length. |
+
+**Returns:** <code>\KDuma\BinaryTools\BinaryString</code>
+
+--------------------
+
+##### readStringWithLength(...)
+
+```php
+\KDuma\BinaryTools\BinaryReader::readStringWithLength(
+    bool $use16BitLength = false
+): \KDuma\BinaryTools\BinaryString
+```
+
+| Param | Type | Description |
+| ----- | ---- | ----------- |
+| **`use16BitLength`** | <code>bool</code> (optional) | When true, reads a 16-bit length; otherwise an 8-bit length. |
+
+**Returns:** <code>\KDuma\BinaryTools\BinaryString</code>
+
+--------------------
+
+---
+
+### Enums
+
+#### IntType
+
+**Namespace:** `\KDuma\BinaryTools\IntType`
+
+| Members | Value | Description |
+| ------- | ----- | ----------- |
+| **`UINT8`** | <code>'UINT8'</code> | Unsigned 8-bit integer (0-255) - Single byte |
+| **`INT8`** | <code>'INT8'</code> | Signed 8-bit integer (-128 to 127) - Single byte |
+| **`UINT16`** | <code>'UINT16'</code> | Unsigned 16-bit integer (0-65535) - Big-endian byte order |
+| **`INT16`** | <code>'INT16'</code> | Signed 16-bit integer (-32768 to 32767) - Big-endian byte order |
+| **`UINT32`** | <code>'UINT32'</code> | Unsigned 32-bit integer (0-4294967295) - Big-endian byte order |
+| **`INT32`** | <code>'INT32'</code> | Signed 32-bit integer (-2147483648 to 2147483647) - Big-endian byte order |
+| **`UINT16_LE`** | <code>'UINT16_LE'</code> | Unsigned 16-bit integer (0-65535) - Little-endian byte order |
+| **`INT16_LE`** | <code>'INT16_LE'</code> | Signed 16-bit integer (-32768 to 32767) - Little-endian byte order |
+| **`UINT32_LE`** | <code>'UINT32_LE'</code> | Unsigned 32-bit integer (0-4294967295) - Little-endian byte order |
+| **`INT32_LE`** | <code>'INT32_LE'</code> | Signed 32-bit integer (-2147483648 to 2147483647) - Little-endian byte order |
+| **`UINT64`** | <code>'UINT64'</code> | Unsigned 64-bit integer - Big-endian byte order (platform dependent range) |
+| **`INT64`** | <code>'INT64'</code> | Signed 64-bit integer - Big-endian byte order (platform dependent range) |
+| **`UINT64_LE`** | <code>'UINT64_LE'</code> | Unsigned 64-bit integer - Little-endian byte order (platform dependent range) |
+| **`INT64_LE`** | <code>'INT64_LE'</code> | Signed 64-bit integer - Little-endian byte order (platform dependent range) |
+
+--------------------
+
+#### Terminator
+
+**Namespace:** `\KDuma\BinaryTools\Terminator`
+
+| Members | Value | Description |
+| ------- | ----- | ----------- |
+| **`NUL`** | <code>'NUL'</code> | Null character (0x00) - Commonly used for C-style string termination |
+| **`SOH`** | <code>'SOH'</code> | Start of Heading (0x01) - Indicates the start of a header block |
+| **`STX`** | <code>'STX'</code> | Start of Text (0x02) - Marks the beginning of text data |
+| **`ETX`** | <code>'ETX'</code> | End of Text (0x03) - Marks the end of text data |
+| **`EOT`** | <code>'EOT'</code> | End of Transmission (0x04) - Indicates end of data transmission |
+| **`ENQ`** | <code>'ENQ'</code> | Enquiry (0x05) - Request for response or status |
+| **`ACK`** | <code>'ACK'</code> | Acknowledge (0x06) - Positive acknowledgment signal |
+| **`BEL`** | <code>'BEL'</code> | Bell (0x07) - Audio alert or notification signal |
+| **`BS`** | <code>'BS'</code> | Backspace (0x08) - Move cursor back one position |
+| **`HT`** | <code>'HT'</code> | Horizontal Tab (0x09) - Move to next tab stop |
+| **`LF`** | <code>'LF'</code> | Line Feed (0x0A) - Move to next line (Unix line ending) |
+| **`VT`** | <code>'VT'</code> | Vertical Tab (0x0B) - Move to next vertical tab position |
+| **`FF`** | <code>'FF'</code> | Form Feed (0x0C) - Start new page or clear screen |
+| **`CR`** | <code>'CR'</code> | Carriage Return (0x0D) - Return to start of line (classic Mac line ending) |
+| **`SO`** | <code>'SO'</code> | Shift Out (0x0E) - Switch to alternate character set |
+| **`SI`** | <code>'SI'</code> | Shift In (0x0F) - Switch back to standard character set |
+| **`DLE`** | <code>'DLE'</code> | Data Link Escape (0x10) - Escape sequence for data link protocols |
+| **`DC1`** | <code>'DC1'</code> | Device Control 1 (0x11) - Also known as XON for flow control |
+| **`DC2`** | <code>'DC2'</code> | Device Control 2 (0x12) - General device control |
+| **`DC3`** | <code>'DC3'</code> | Device Control 3 (0x13) - Also known as XOFF for flow control |
+| **`DC4`** | <code>'DC4'</code> | Device Control 4 (0x14) - General device control |
+| **`NAK`** | <code>'NAK'</code> | Negative Acknowledge (0x15) - Error or rejection signal |
+| **`SYN`** | <code>'SYN'</code> | Synchronous Idle (0x16) - Synchronization in data streams |
+| **`ETB`** | <code>'ETB'</code> | End of Transmission Block (0x17) - End of data block marker |
+| **`CAN`** | <code>'CAN'</code> | Cancel (0x18) - Cancel current operation |
+| **`EM`** | <code>'EM'</code> | End of Medium (0x19) - End of storage medium |
+| **`SUB`** | <code>'SUB'</code> | Substitute (0x1A) - Replacement for invalid character |
+| **`ESC`** | <code>'ESC'</code> | Escape (0x1B) - Start of escape sequence |
+| **`FS`** | <code>'FS'</code> | File Separator (0x1C) - Delimiter between files |
+| **`GS`** | <code>'GS'</code> | Group Separator (0x1D) - Delimiter between groups of data |
+| **`RS`** | <code>'RS'</code> | Record Separator (0x1E) - Delimiter between records |
+| **`US`** | <code>'US'</code> | Unit Separator (0x1F) - Delimiter between units of data |
+| **`SP`** | <code>'SP'</code> | Space (0x20) - Standard whitespace character |
+| **`CRLF`** | <code>'CRLF'</code> | Carriage Return + Line Feed (0x0D 0x0A) - Windows line ending |
+
+--------------------
+
