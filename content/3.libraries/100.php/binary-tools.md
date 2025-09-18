@@ -35,8 +35,9 @@ composer require kduma/binary-tools
 - **UTF-8 string validation** for text data
 - **Multiple encoding formats** (hex, base64, base32)
 - **Secure string comparison** using `hash_equals()`
-- **Big-endian integer support** for network protocols
+- **Flexible integer support** with configurable byte order and signedness
 - **Position tracking** for streaming operations
+- **Terminator support** for null-terminated and delimited data parsing
 
 ## Core Classes
 
@@ -51,6 +52,14 @@ Stream-like writer for building binary data structures.
 ### BinaryReader
 
 Stream-like reader for parsing binary data with position tracking.
+
+### IntType
+
+Enum defining integer types with configurable byte order, signedness, and platform validation.
+
+### Terminator
+
+Enum defining common binary terminators for delimited data parsing.
 
 
 ## Usage Examples
@@ -88,19 +97,26 @@ if ($binary->equals($other)) {
 ```php
 use KDuma\BinaryTools\BinaryWriter;
 use KDuma\BinaryTools\BinaryString;
+use KDuma\BinaryTools\IntType;
 
 $writer = new BinaryWriter();
 
 // Write different data types
 $writer->writeByte(0x42)                          // Single byte
-       ->writeUint16BE(1234)                      // 16-bit big-endian integer
+       ->writeInt(IntType::UINT16, 1234)          // 16-bit unsigned integer
+       ->writeInt(IntType::INT32_LE, -500)        // 32-bit signed little-endian
        ->writeBytes(BinaryString::fromHex("abcd")) // Raw bytes
        ->writeString(BinaryString::fromString("Hello")); // UTF-8 string
 
 // Write strings with length prefixes
 $text = BinaryString::fromString("Hello World");
-$writer->writeStringWithLength($text);        // 8-bit length + string
-$writer->writeStringWithLength($text, true);  // 16-bit length + string
+$writer->writeStringWith($text, length: IntType::UINT8);   // 8-bit length + string
+$writer->writeStringWith($text, length: IntType::UINT16);  // 16-bit length + string
+$writer->writeBytesWith(BinaryString::fromHex("abcd"), length: IntType::UINT16_LE); // Little-endian length + bytes
+
+// Write strings with terminators
+$writer->writeStringWith($text, terminator: Terminator::NUL);  // Null-terminated string
+$writer->writeBytesWith($data, terminator: BinaryString::fromString("\r\n")); // Custom terminator
 
 // Get the result
 $result = $writer->getBuffer();
@@ -112,19 +128,27 @@ echo $result->toHex(); // Complete binary data as hex
 ```php
 use KDuma\BinaryTools\BinaryReader;
 use KDuma\BinaryTools\BinaryString;
+use KDuma\BinaryTools\IntType;
 
 $data = BinaryString::fromHex("4204d2abcd48656c6c6f0548656c6c6f20576f726c64000b48656c6c6f20576f726c64");
 $reader = new BinaryReader($data);
 
 // Read different data types
-$byte = $reader->readByte();        // 0x42
-$uint16 = $reader->readUint16BE();  // 1234
-$bytes = $reader->readBytes(2);     // Raw bytes
-$string = $reader->readBytes(5);    // "Hello"
+$byte = $reader->readByte();                    // 0x42
+$uint16 = $reader->readInt(IntType::UINT16);    // 1234
+$int32le = $reader->readInt(IntType::INT32_LE); // Little-endian 32-bit signed
+$bytes = $reader->readBytes(2);                 // BinaryString with raw bytes
+$stringData = $reader->readString(5);           // BinaryString with UTF-8 validation
+$string = $stringData->toString();              // "Hello" - actual string value
 
 // Read strings with length prefixes
-$stringWithLength = $reader->readStringWithLength();      // 8-bit length
-$stringWithLength16 = $reader->readStringWithLength(true); // 16-bit length
+$stringWithLength = $reader->readStringWith(length: IntType::UINT8);   // 8-bit length
+$stringWithLength16 = $reader->readStringWith(length: IntType::UINT16); // 16-bit length
+$bytesWithLength = $reader->readBytesWith(length: IntType::UINT16_LE);  // Little-endian length + bytes
+
+// Read strings with terminators
+$nullTermString = $reader->readStringWith(terminator: Terminator::NUL);  // Null-terminated
+$lineData = $reader->readBytesWith(terminator: BinaryString::fromString("\r\n")); // Custom terminator
 
 // Position management
 echo $reader->position;        // Current position
@@ -140,6 +164,93 @@ $reader->seek(0);  // Go to start
 $reader->skip(5);  // Skip 5 bytes
 ```
 
+> **📝 Reading Strings vs Binary Data**
+>
+> - Use `readString(length)` for UTF-8 text data that needs validation
+> - Use `readBytes(length)` for raw binary data (magic bytes, checksums, etc.)
+> - Use `readStringWith(length: IntType)` for strings with typed length prefixes
+> - Use `readBytesWith(length: IntType)` for binary data with typed length prefixes
+> - Use `readStringWith(terminator: Terminator|BinaryString)` for null-terminated or delimited strings (use `BinaryString` for custom termination value)
+> - Use `readBytesWith(terminator: BinaryString|BinaryString)` for null-terminated or delimited binary data (use `BinaryString` for custom termination value)
+> - Call `toString()` on BinaryString objects to get actual string values
+
+## Terminator Support
+
+The library supports both length-prefixed and terminator-delimited data parsing:
+
+```php
+use KDuma\BinaryTools\BinaryWriter;
+use KDuma\BinaryTools\BinaryReader;
+use KDuma\BinaryTools\BinaryString;
+use KDuma\BinaryTools\Terminator;
+
+// Create some data with different delimiters
+$writer = new BinaryWriter();
+
+// Null-terminated string (C-style)
+$writer->writeStringWith(BinaryString::fromString("Hello World"), terminator: Terminator::NUL);
+
+// Line-based data with CRLF terminator
+$writer->writeBytesWith(BinaryString::fromString("Line 1"), terminator: BinaryString::fromString("\r\n"));
+$writer->writeBytesWith(BinaryString::fromString("Line 2"), terminator: BinaryString::fromString("\r\n"));
+
+// Group separator terminated data
+$writer->writeStringWith(BinaryString::fromString("Record 1"), terminator: Terminator::GS);
+
+// Read the data back
+$reader = new BinaryReader($writer->getBuffer());
+
+$nullTermString = $reader->readStringWith(terminator: Terminator::NUL);
+echo $nullTermString->toString(); // "Hello World"
+
+$line1 = $reader->readBytesWith(terminator: BinaryString::fromString("\r\n"));
+$line2 = $reader->readBytesWith(terminator: BinaryString::fromString("\r\n"));
+echo $line1->toString() . " and " . $line2->toString(); // "Line 1 and Line 2"
+
+$record = $reader->readStringWith(terminator: Terminator::GS);
+echo $record->toString(); // "Record 1"
+```
+
+### Available Terminators
+
+| Terminator | Value | Description |
+|------------|-------|-------------|
+| `Terminator::NUL` | `\x00` | Null character (C-style strings) |
+| `Terminator::SOH` | `\x01` | Start of Heading |
+| `Terminator::STX` | `\x02` | Start of Text |
+| `Terminator::ETX` | `\x03` | End of Text |
+| `Terminator::EOT` | `\x04` | End of Transmission |
+| `Terminator::ENQ` | `\x05` | Enquiry |
+| `Terminator::ACK` | `\x06` | Acknowledge |
+| `Terminator::BEL` | `\x07` | Bell |
+| `Terminator::BS` | `\x08` | Backspace |
+| `Terminator::HT` | `\x09` | Horizontal Tab |
+| `Terminator::LF` | `\x0A` | Line Feed |
+| `Terminator::VT` | `\x0B` | Vertical Tab |
+| `Terminator::FF` | `\x0C` | Form Feed |
+| `Terminator::CR` | `\x0D` | Carriage Return |
+| `Terminator::SO` | `\x0E` | Shift Out |
+| `Terminator::SI` | `\x0F` | Shift In |
+| `Terminator::DLE` | `\x10` | Data Link Escape |
+| `Terminator::DC1` | `\x11` | Device Control 1 (XON) |
+| `Terminator::DC2` | `\x12` | Device Control 2 |
+| `Terminator::DC3` | `\x13` | Device Control 3 (XOFF) |
+| `Terminator::DC4` | `\x14` | Device Control 4 |
+| `Terminator::NAK` | `\x15` | Negative Acknowledge |
+| `Terminator::SYN` | `\x16` | Synchronous Idle |
+| `Terminator::ETB` | `\x17` | End of Transmission Block |
+| `Terminator::CAN` | `\x18` | Cancel |
+| `Terminator::EM` | `\x19` | End of Medium |
+| `Terminator::SUB` | `\x1A` | Substitute |
+| `Terminator::ESC` | `\x1B` | Escape |
+| `Terminator::FS` | `\x1C` | File Separator |
+| `Terminator::GS` | `\x1D` | Group Separator |
+| `Terminator::RS` | `\x1E` | Record Separator |
+| `Terminator::US` | `\x1F` | Unit Separator |
+| `Terminator::SP` | `\x20` | Space |
+| `Terminator::CRLF` | `\x0D\x0A` | Carriage Return + Line Feed |
+| Custom `BinaryString` | Any bytes | Custom terminator sequence |
+
 ## Common Use Cases
 
 ### Protocol Implementation
@@ -149,17 +260,17 @@ $reader->skip(5);  // Skip 5 bytes
 $writer = new BinaryWriter();
 $message = BinaryString::fromString("Hello, Protocol!");
 
-$writer->writeByte(0x01)                    // Message type
-       ->writeUint16BE(time() & 0xFFFF)     // Timestamp (16-bit)
-       ->writeStringWithLength($message);    // Payload
+$writer->writeByte(0x01)                           // Message type
+       ->writeInt(IntType::UINT16, time() & 0xFFFF) // Timestamp (16-bit)
+       ->writeStringWith($message, length: IntType::UINT8); // Payload
 
 $packet = $writer->getBuffer();
 
 // Reading the protocol message
 $reader = new BinaryReader($packet);
 $messageType = $reader->readByte();
-$timestamp = $reader->readUint16BE();
-$payload = $reader->readStringWithLength();
+$timestamp = $reader->readInt(IntType::UINT16);
+$payload = $reader->readStringWith(length: IntType::UINT8);
 
 echo "Type: {$messageType}, Time: {$timestamp}, Message: {$payload->toString()}";
 ```
@@ -173,8 +284,8 @@ $reader = new BinaryReader($fileData);
 
 $magic = $reader->readBytes(2)->toString();  // "MZ"
 if ($magic === "MZ") {
-    $bytesOnLastPage = $reader->readUint16BE();
-    $pagesInFile = $reader->readUint16BE();
+    $bytesOnLastPage = $reader->readInt(IntType::UINT16);
+    $pagesInFile = $reader->readInt(IntType::UINT16);
     // ... continue parsing
 }
 ```
@@ -193,8 +304,8 @@ $users = [
 $writer->writeByte(count($users)); // User count
 
 foreach ($users as $user) {
-    $writer->writeUint16BE($user['id']);
-    $writer->writeStringWithLength(BinaryString::fromString($user['name']));
+    $writer->writeInt(IntType::UINT16, $user['id']);
+    $writer->writeStringWith(BinaryString::fromString($user['name']), length: IntType::UINT8);
 }
 
 $serialized = $writer->getBuffer();
@@ -204,8 +315,8 @@ $reader = new BinaryReader($serialized);
 $userCount = $reader->readByte();
 
 for ($i = 0; $i < $userCount; $i++) {
-    $userId = $reader->readUint16BE();
-    $userName = $reader->readStringWithLength()->toString();
+    $userId = $reader->readInt(IntType::UINT16);
+    $userName = $reader->readStringWith(length: IntType::UINT8)->toString();
     echo "User {$userId}: {$userName}\n";
 }
 ```
@@ -236,10 +347,10 @@ for ($i = 0; $i < $userCount; $i++) {
 | `reset(): void` | Clear buffer |
 | `writeByte(int $byte): self` | Write single byte (0-255) |
 | `writeBytes(BinaryString $bytes): self` | Write binary data |
-| `writeUint16BE(int $value): self` | Write 16-bit big-endian integer |
+| `writeInt(IntType $type, int $value): self` | Write integer with specified type |
 | `writeString(BinaryString $string): self` | Write UTF-8 string |
-| `writeStringWithLength(BinaryString $string, bool $use16BitLength = false): self` | Write string with length prefix |
-| `writeBytesWithLength(BinaryString $bytes, bool $use16BitLength = false): self` | Write bytes with length prefix |
+| `writeBytesWith(BinaryString $bytes, ?IntType $length = null, Terminator\|BinaryString\|null $terminator = null): self` | Write bytes with length prefix or terminator |
+| `writeStringWith(BinaryString $string, ?IntType $length = null, Terminator\|BinaryString\|null $terminator = null): self` | Write string with length prefix or terminator |
 
 ### BinaryReader
 
@@ -253,15 +364,102 @@ for ($i = 0; $i < $userCount; $i++) {
 | `$remaining_data` | Get remaining data |
 | `readByte(): int` | Read single byte |
 | `readBytes(int $count): BinaryString` | Read N bytes |
-| `readUint16BE(): int` | Read 16-bit big-endian integer |
+| `readInt(IntType $type): int` | Read integer with specified type |
 | `readString(int $length): BinaryString` | Read UTF-8 string of specific length |
-| `readStringWithLength(bool $use16BitLength = false): BinaryString` | Read string with length prefix |
-| `readBytesWithLength(bool $use16BitLength = false): BinaryString` | Read bytes with length prefix |
+| `readBytesWith(?IntType $length = null, Terminator\|BinaryString\|null $terminator = null): BinaryString` | Read bytes with length prefix or terminator |
+| `readStringWith(?IntType $length = null, Terminator\|BinaryString\|null $terminator = null): BinaryString` | Read string with length prefix or terminator |
 | `peekByte(): int` | Peek next byte without advancing |
 | `peekBytes(int $count): BinaryString` | Peek N bytes without advancing |
 | `seek(int $position): void` | Seek to position |
 | `skip(int $count): void` | Skip N bytes |
 
+### IntType
+
+The `IntType` enum defines various integer types with different byte sizes, signedness, and byte order.
+
+| Type | Bytes | Signed | Little Endian | Min Value | Max Value | Platform Support |
+|------|-------|--------|---------------|-----------|-----------|------------------|
+| `UINT8` | 1 | No | N/A | 0 | 255 | Always |
+| `INT8` | 1 | Yes | N/A | -128 | 127 | Always |
+| `UINT16` | 2 | No | No | 0 | 65535 | Always |
+| `INT16` | 2 | Yes | No | -32768 | 32767 | Always |
+| `UINT16_LE` | 2 | No | Yes | 0 | 65535 | Always |
+| `INT16_LE` | 2 | Yes | Yes | -32768 | 32767 | Always |
+| `UINT32` | 4 | No | No | 0 | 4294967295 | Always |
+| `INT32` | 4 | Yes | No | -2147483648 | 2147483647 | Always |
+| `UINT32_LE` | 4 | No | Yes | 0 | 4294967295 | Always |
+| `INT32_LE` | 4 | Yes | Yes | -2147483648 | 2147483647 | Always |
+| `UINT64` | 8 | No | No | 0 | PHP_INT_MAX* | 64-bit only |
+| `INT64` | 8 | Yes | No | PHP_INT_MIN* | PHP_INT_MAX* | 64-bit only |
+| `UINT64_LE` | 8 | No | Yes | 0 | PHP_INT_MAX* | 64-bit only |
+| `INT64_LE` | 8 | Yes | Yes | PHP_INT_MIN* | PHP_INT_MAX* | 64-bit only |
+
+*64-bit types are limited by PHP's integer size on the platform.
+
+#### IntType Methods
+
+| Method | Description |
+|--------|-------------|
+| `bytes(): int` | Get byte size of the type |
+| `isSigned(): bool` | Whether the type is signed |
+| `isLittleEndian(): bool` | Whether the type uses little-endian byte order |
+| `isSupported(): bool` | Whether the type is supported on current platform |
+| `minValue(): int` | Get minimum valid value for the type |
+| `maxValue(): int` | Get maximum valid value for the type |
+| `isValid(int $value): bool` | Check if value is within valid range |
+
+### Terminator
+
+| Method | Description |
+|--------|-------------|
+| `toBytes(): BinaryString` | Get terminator as binary bytes |
+
+**Available Cases:**
+- `Terminator::NUL` - Null character (`\x00`)
+- `Terminator::SOH` - Start of Heading (`\x01`)
+- `Terminator::STX` - Start of Text (`\x02`)
+- `Terminator::ETX` - End of Text (`\x03`)
+- `Terminator::EOT` - End of Transmission (`\x04`)
+- `Terminator::ENQ` - Enquiry (`\x05`)
+- `Terminator::ACK` - Acknowledge (`\x06`)
+- `Terminator::BEL` - Bell (`\x07`)
+- `Terminator::BS` - Backspace (`\x08`)
+- `Terminator::HT` - Horizontal Tab (`\x09`)
+- `Terminator::LF` - Line Feed (`\x0A`)
+- `Terminator::VT` - Vertical Tab (`\x0B`)
+- `Terminator::FF` - Form Feed (`\x0C`)
+- `Terminator::CR` - Carriage Return (`\x0D`)
+- `Terminator::SO` - Shift Out (`\x0E`)
+- `Terminator::SI` - Shift In (`\x0F`)
+- `Terminator::DLE` - Data Link Escape (`\x10`)
+- `Terminator::DC1` - Device Control 1 (XON) (`\x11`)
+- `Terminator::DC2` - Device Control 2 (`\x12`)
+- `Terminator::DC3` - Device Control 3 (XOFF) (`\x13`)
+- `Terminator::DC4` - Device Control 4 (`\x14`)
+- `Terminator::NAK` - Negative Acknowledge (`\x15`)
+- `Terminator::SYN` - Synchronous Idle (`\x16`)
+- `Terminator::ETB` - End of Transmission Block (`\x17`)
+- `Terminator::CAN` - Cancel (`\x18`)
+- `Terminator::EM` - End of Medium (`\x19`)
+- `Terminator::SUB` - Substitute (`\x1A`)
+- `Terminator::ESC` - Escape (`\x1B`)
+- `Terminator::FS` - File Separator (`\x1C`)
+- `Terminator::GS` - Group Separator (`\x1D`)
+- `Terminator::RS` - Record Separator (`\x1E`)
+- `Terminator::US` - Unit Separator (`\x1F`)
+- `Terminator::SP` - Space (`\x20`)
+- `Terminator::CRLF` - Carriage Return + Line Feed (`\x0D\x0A`)
+
+## Deprecated Methods
+
+The following methods are deprecated but remain available for backward compatibility:
+
+- `BinaryWriter::writeUint16BE(int $value)` - Use `writeInt(IntType::UINT16, $value)` instead
+- `BinaryWriter::writeBytesWithLength(BinaryString $bytes, bool $use16BitLength = false)` - Use `writeBytesWith($bytes, length: IntType $length)` instead
+- `BinaryWriter::writeStringWithLength(BinaryString $string, bool $use16BitLength = false)` - Use `writeStringWith($string, length: IntType $length)` instead
+- `BinaryReader::readUint16BE()` - Use `readInt(IntType::UINT16)` instead
+- `BinaryReader::readBytesWithLength(bool $use16BitLength = false)` - Use `readBytesWith(length: IntType::UINT8)` instead
+- `BinaryReader::readStringWithLength(bool $use16BitLength = false)` - Use `readStringWith(length: IntType::UINT8)` instead
 
 ## Error Handling
 
