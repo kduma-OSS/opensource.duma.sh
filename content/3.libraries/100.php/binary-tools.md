@@ -39,6 +39,7 @@ composer require kduma/binary-tools
 - **Flexible integer support** with configurable byte order and signedness
 - **Position tracking** for streaming operations
 - **Terminator support** for null-terminated and delimited data parsing
+- **Fixed-size field padding** with configurable pad byte support
 
 ## Core Classes
 
@@ -124,6 +125,10 @@ $writer->writeBytesWith(BinaryString::fromHex("abcd"), length: IntType::UINT16_L
 $writer->writeStringWith($text, terminator: Terminator::NUL);  // Null-terminated string
 $writer->writeBytesWith($data, terminator: BinaryString::fromString("\r\n")); // Custom terminator
 
+// Write fixed-size fields with padding
+$writer->writeBytesWith(BinaryString::fromString('OK'), padding: BinaryString::fromString("\x20"), padding_size: 4);
+$writer->writeStringWith(BinaryString::fromString('ID'), padding_size: 4); // Defaults to NUL padding
+
 // Get the result
 $result = $writer->getBuffer();
 echo $result->toHex(); // Complete binary data as hex
@@ -156,6 +161,10 @@ $bytesWithLength = $reader->readBytesWith(length: IntType::UINT16_LE);  // Littl
 $nullTermString = $reader->readStringWith(terminator: Terminator::NUL);  // Terminator required
 $lineData = $reader->readBytesWith(optional_terminator: BinaryString::fromString("\r\n")); // Terminator optional
 
+// Read padded fields (total size includes padding)
+$status = $reader->readBytesWith(padding: BinaryString::fromString("\x20"), padding_size: 4);
+$identifier = $reader->readStringWith(padding_size: 4); // Defaults to NUL padding
+
 // Position management
 echo $reader->position;        // Current position
 echo $reader->remaining_bytes; // Bytes left
@@ -180,6 +189,8 @@ $reader->skip(5);  // Skip 5 bytes
 > - Use `readStringWith(optional_terminator: Terminator|BinaryString)` to read until terminator or end of data
 > - Use `readBytesWith(terminator: Terminator|BinaryString)` when the terminator **must** be present
 > - Use `readBytesWith(optional_terminator: Terminator|BinaryString)` to read until terminator or end of data
+> - Use `readBytesWith(padding_size: int, padding: Terminator|BinaryString)` for fixed-size padded fields (pad byte must be single byte and absent from data)
+> - Terminator arguments must be non-empty in both modes
 > - Call `toString()` on BinaryString objects to get actual string values
 
 ## Terminator Support
@@ -357,8 +368,8 @@ for ($i = 0; $i < $userCount; $i++) {
 | `writeBytes(BinaryString $bytes): self` | Write binary data |
 | `writeInt(IntType $type, int $value): self` | Write integer with specified type |
 | `writeString(BinaryString $string): self` | Write UTF-8 string |
-| `writeBytesWith(BinaryString $bytes, ?IntType $length = null, Terminator\|BinaryString\|null $terminator = null): self` | Write bytes with length prefix or terminator |
-| `writeStringWith(BinaryString $string, ?IntType $length = null, Terminator\|BinaryString\|null $terminator = null): self` | Write string with length prefix or terminator |
+| `writeBytesWith(BinaryString $bytes, ?IntType $length = null, Terminator\|BinaryString\|null $terminator = null, Terminator\|BinaryString\|null $padding = null, ?int $padding_size = null): self` | Write bytes with length prefix, terminator, or fixed padding |
+| `writeStringWith(BinaryString $string, ?IntType $length = null, Terminator\|BinaryString\|null $terminator = null, Terminator\|BinaryString\|null $padding = null, ?int $padding_size = null): self` | Write string with length prefix, terminator, or fixed padding |
 
 ### BinaryReader
 
@@ -374,8 +385,8 @@ for ($i = 0; $i < $userCount; $i++) {
 | `readBytes(int $count): BinaryString` | Read N bytes |
 | `readInt(IntType $type): int` | Read integer with specified type |
 | `readString(int $length): BinaryString` | Read UTF-8 string of specific length |
-| `readBytesWith(?IntType $length = null, Terminator\|BinaryString\|null $terminator = null, Terminator\|BinaryString\|null $optional_terminator = null): BinaryString` | Read bytes with length prefix, required terminator, or optional terminator |
-| `readStringWith(?IntType $length = null, Terminator\|BinaryString\|null $terminator = null, Terminator\|BinaryString\|null $optional_terminator = null): BinaryString` | Read string with length prefix, required terminator, or optional terminator |
+| `readBytesWith(?IntType $length = null, Terminator\|BinaryString\|null $terminator = null, Terminator\|BinaryString\|null $optional_terminator = null, Terminator\|BinaryString\|null $padding = null, ?int $padding_size = null): BinaryString` | Read bytes with length prefix, terminator, or fixed padding |
+| `readStringWith(?IntType $length = null, Terminator\|BinaryString\|null $terminator = null, Terminator\|BinaryString\|null $optional_terminator = null, Terminator\|BinaryString\|null $padding = null, ?int $padding_size = null): BinaryString` | Read string with length prefix, terminator, or fixed padding |
 | `peekByte(): int` | Peek next byte without advancing |
 | `peekBytes(int $count): BinaryString` | Peek N bytes without advancing |
 | `seek(int $position): void` | Seek to position |
