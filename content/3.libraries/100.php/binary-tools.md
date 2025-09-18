@@ -153,8 +153,8 @@ $stringWithLength16 = $reader->readStringWith(length: IntType::UINT16); // 16-bi
 $bytesWithLength = $reader->readBytesWith(length: IntType::UINT16_LE);  // Little-endian length + bytes
 
 // Read strings with terminators
-$nullTermString = $reader->readStringWith(terminator: Terminator::NUL);  // Null-terminated
-$lineData = $reader->readBytesWith(terminator: BinaryString::fromString("\r\n")); // Custom terminator
+$nullTermString = $reader->readStringWith(terminator: Terminator::NUL);  // Terminator required
+$lineData = $reader->readBytesWith(optional_terminator: BinaryString::fromString("\r\n")); // Terminator optional
 
 // Position management
 echo $reader->position;        // Current position
@@ -176,8 +176,10 @@ $reader->skip(5);  // Skip 5 bytes
 > - Use `readBytes(length)` for raw binary data (magic bytes, checksums, etc.)
 > - Use `readStringWith(length: IntType)` for strings with typed length prefixes
 > - Use `readBytesWith(length: IntType)` for binary data with typed length prefixes
-> - Use `readStringWith(terminator: Terminator|BinaryString)` for null-terminated or delimited strings (use `BinaryString` for custom termination value)
-> - Use `readBytesWith(terminator: BinaryString|BinaryString)` for null-terminated or delimited binary data (use `BinaryString` for custom termination value)
+> - Use `readStringWith(terminator: Terminator|BinaryString)` when the terminator **must** be present
+> - Use `readStringWith(optional_terminator: Terminator|BinaryString)` to read until terminator or end of data
+> - Use `readBytesWith(terminator: Terminator|BinaryString)` when the terminator **must** be present
+> - Use `readBytesWith(optional_terminator: Terminator|BinaryString)` to read until terminator or end of data
 > - Call `toString()` on BinaryString objects to get actual string values
 
 ## Terminator Support
@@ -372,8 +374,8 @@ for ($i = 0; $i < $userCount; $i++) {
 | `readBytes(int $count): BinaryString` | Read N bytes |
 | `readInt(IntType $type): int` | Read integer with specified type |
 | `readString(int $length): BinaryString` | Read UTF-8 string of specific length |
-| `readBytesWith(?IntType $length = null, Terminator\|BinaryString\|null $terminator = null): BinaryString` | Read bytes with length prefix or terminator |
-| `readStringWith(?IntType $length = null, Terminator\|BinaryString\|null $terminator = null): BinaryString` | Read string with length prefix or terminator |
+| `readBytesWith(?IntType $length = null, Terminator\|BinaryString\|null $terminator = null, Terminator\|BinaryString\|null $optional_terminator = null): BinaryString` | Read bytes with length prefix, required terminator, or optional terminator |
+| `readStringWith(?IntType $length = null, Terminator\|BinaryString\|null $terminator = null, Terminator\|BinaryString\|null $optional_terminator = null): BinaryString` | Read string with length prefix, required terminator, or optional terminator |
 | `peekByte(): int` | Peek next byte without advancing |
 | `peekBytes(int $count): BinaryString` | Peek N bytes without advancing |
 | `seek(int $position): void` | Seek to position |
