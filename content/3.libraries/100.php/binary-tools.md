@@ -35,6 +35,7 @@ composer require kduma/binary-tools
 - **UTF-8 string validation** for text data
 - **Multiple encoding formats** (hex, base64, base32)
 - **Secure string comparison** using `hash_equals()`
+- **Binary-safe substring search** with `BinaryString::contains()`
 - **Flexible integer support** with configurable byte order and signedness
 - **Position tracking** for streaming operations
 - **Terminator support** for null-terminated and delimited data parsing
@@ -89,6 +90,11 @@ echo $binary->size();     // 5
 $other = BinaryString::fromString("Hello");
 if ($binary->equals($other)) {
     echo "Strings are equal";
+}
+
+// Binary-safe substring search
+if ($binary->contains(BinaryString::fromString("He"))) {
+    echo "Binary data contains 'He'";
 }
 ```
 
