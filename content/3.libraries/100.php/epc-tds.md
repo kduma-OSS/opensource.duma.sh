@@ -5,6 +5,9 @@ type: library
 platform: PHP
 active: true
 github: https://github.com/kduma-autoid/php-epc-tds
+featured: 12
+featured_description: A library for encoding and decoding EPC data in PHP
+featured_icon: bx:rfid
 ---
 
 ::u-button-group
