@@ -63,11 +63,30 @@ brew install php@8.1
 
 ## Core Concepts
 
+### Architecture
+
+The library uses an interface-based architecture for flexibility and type safety:
+
+**Base Interfaces:**
+- `EpcInterface`: Root interface defining common EPC operations
+- `AbstractEpc`: Base implementation providing bit manipulation
+- `AbstractStandardEpc`: Base for standard GS1 EPCs with filter and barcode support
+
+**Capability Interfaces:**
+- `HasFilterInterface`: For EPCs with filter values (most types)
+- `HasPartitionInterface`: For EPCs using partition encoding
+- `HasCompanyPrefixInterface`: For EPCs with GS1 company prefix
+- `HasSerialInterface`: For EPCs with serial numbers
+- `HasBarcodeInterface`: For EPCs convertible to barcodes
+
+**Type-Specific Interfaces:**
+Each EPC type has its own interface (e.g., `SgtinInterface`, `GidInterface`) that composes the relevant capability interfaces. Abstract base classes (e.g., `AbstractSgtin`, `AbstractGrai`) provide shared implementation for variant sizes (96-bit, 198-bit, etc.).
+
 ### EPC Structure
 
 Each EPC contains:
 - **Header**: Identifies the EPC scheme (8 bits)
-- **Filter**: Classification value for the tagged item (3 bits)
+- **Filter**: Classification value for the tagged item (3 bits, not present in GID)
 - **Partition**: Indicates how bits are divided between company prefix and item reference
 - **Company Prefix**: GS1 assigned company identifier
 - **Item/Serial Reference**: Company-assigned identifier
@@ -106,16 +125,21 @@ use KDuma\EpcTds\TDS;
 
 #### `valueOf(string $hexEpc): AbstractEpc`
 
-Decodes a hexadecimal EPC string and returns the appropriate EPC object.
+Decodes a hexadecimal EPC string and returns the appropriate EPC object. The returned object implements `EpcInterface` and its type-specific interface.
 
 ```php
 $epc = TDS::valueOf("3034257BF7194E4000001A85");
 echo get_class($epc); // KDuma\EpcTds\Epc\Sgtin\Sgtin96
+
+// Use interfaces for type checking
+if ($epc instanceof SgtinInterface) {
+    echo $epc->getGtin();
+}
 ```
 
 #### `fromTagURI(string $uri): AbstractEpc`
 
-Creates an EPC object from a Tag URI string.
+Creates an EPC object from a Tag URI string. The returned object implements `EpcInterface` and its type-specific interface.
 
 ```php
 $epc = TDS::fromTagURI("urn:epc:tag:sgtin-96:3.0614141.812345.6789");
@@ -124,23 +148,214 @@ echo $epc->toHexString(); // 3074257BF7194E4000001A85
 
 ---
 
+## Interfaces
+
+### EpcInterface
+
+Root interface for all EPC types. Defines core methods available on all implementations.
+
+```php
+use KDuma\EpcTds\Epc\EpcInterface;
+
+function processEpc(EpcInterface $epc): void {
+    echo $epc->getType()->name;     // Type enum
+    echo $epc->toTagURI();           // Tag URI
+    echo $epc->toIdURI();            // ID URI
+    echo $epc->getTotalBits();       // Bit length (96, 198, etc.)
+    echo $epc->getHeader();          // Header value
+    $clone = $epc->clone();          // Create copy
+}
+```
+
+### Capability Interfaces
+
+These interfaces define optional capabilities that some EPC types support:
+
+#### HasFilterInterface
+
+For EPCs with filter values (all types except GID-96).
+
+```php
+use KDuma\EpcTds\Epc\HasFilterInterface;
+
+if ($epc instanceof HasFilterInterface) {
+    $filter = $epc->getFilter();     // Get filter (0-7)
+    $epc->setFilter(3);              // Set filter
+}
+```
+
+#### HasPartitionInterface
+
+For EPCs using partition-based encoding (most GS1 types).
+
+```php
+use KDuma\EpcTds\Epc\HasPartitionInterface;
+
+if ($epc instanceof HasPartitionInterface) {
+    $partition = $epc->getPartition();  // Get partition (0-6)
+    $epc->setPartition(5);              // Set partition
+}
+```
+
+#### HasCompanyPrefixInterface
+
+For EPCs with GS1 company prefix.
+
+```php
+use KDuma\EpcTds\Epc\HasCompanyPrefixInterface;
+
+if ($epc instanceof HasCompanyPrefixInterface) {
+    $prefix = $epc->getCompanyPrefix();
+    $epc->setCompanyPrefix(614141);
+}
+```
+
+#### HasSerialInterface
+
+For EPCs with serial numbers. Serial type varies: 96-bit variants use `int`, extended variants use `string`.
+
+```php
+use KDuma\EpcTds\Epc\HasSerialInterface;
+
+if ($epc instanceof HasSerialInterface) {
+    $serial = $epc->getSerial();        // int or string
+    $epc->setSerial(12345);             // For 96-bit
+    $epc->setSerial("ABC123");          // For extended
+}
+```
+
+#### HasBarcodeInterface
+
+For EPCs convertible to barcode format (all types except GID-96).
+
+```php
+use KDuma\EpcTds\Epc\HasBarcodeInterface;
+
+if ($epc instanceof HasBarcodeInterface) {
+    $barcode = $epc->toBarcode();       // GTIN, SSCC, etc.
+}
+```
+
+### Type-Specific Interfaces
+
+Each EPC type has its own interface composing relevant capabilities:
+
+| Interface | Extends | Purpose |
+|-----------|---------|---------|
+| `SgtinInterface` | EpcInterface + HasCompanyPrefix + HasPartition + HasSerial + HasFilter + HasBarcode | Serialized Global Trade Item Number |
+| `SsccInterface` | EpcInterface + HasCompanyPrefix + HasPartition + HasFilter + HasBarcode | Serial Shipping Container Code |
+| `SglnInterface` | EpcInterface + HasCompanyPrefix + HasPartition + HasFilter + HasBarcode | Global Location Number |
+| `GraiInterface` | EpcInterface + HasCompanyPrefix + HasPartition + HasSerial + HasFilter + HasBarcode | Global Returnable Asset Identifier |
+| `GidInterface` | EpcInterface only | General Identifier (no filter/barcode) |
+| `GiaiInterface` | EpcInterface + HasCompanyPrefix + HasPartition + HasFilter | Global Individual Asset Identifier |
+| `GsrnInterface` | EpcInterface + HasCompanyPrefix + HasPartition + HasFilter + HasBarcode | Global Service Relation Number |
+| `GdtiInterface` | EpcInterface + HasCompanyPrefix + HasPartition + HasSerial + HasFilter + HasBarcode | Global Document Type Identifier |
+| `CpiInterface` | EpcInterface + HasCompanyPrefix + HasPartition + HasSerial + HasFilter + HasBarcode | Component/Part Identifier |
+| `SgcnInterface` | EpcInterface + HasCompanyPrefix + HasPartition + HasSerial + HasFilter + HasBarcode | Serialized Global Coupon Number |
+
+### Practical Examples
+
+**Type checking and polymorphism:**
+
+```php
+use KDuma\EpcTds\TDS;
+use KDuma\EpcTds\Epc\EpcInterface;
+use KDuma\EpcTds\Epc\HasBarcodeInterface;
+use KDuma\EpcTds\Epc\HasSerialInterface;
+use KDuma\EpcTds\Epc\Sgtin\SgtinInterface;
+
+// Decode unknown EPC type
+$epc = TDS::valueOf("3034257BF7194E4000001A85");
+
+// Work with base interface
+function logEpc(EpcInterface $epc): void {
+    echo "Type: " . $epc->getType()->name . "\n";
+    echo "Tag URI: " . $epc->toTagURI() . "\n";
+}
+
+// Check for barcode support
+if ($epc instanceof HasBarcodeInterface) {
+    echo "Barcode: " . $epc->toBarcode() . "\n";
+}
+
+// Check for serial support
+if ($epc instanceof HasSerialInterface) {
+    echo "Serial: " . $epc->getSerial() . "\n";
+}
+
+// Type-specific operations
+if ($epc instanceof SgtinInterface) {
+    echo "GTIN: " . $epc->getGtin() . "\n";
+    echo "Item Ref: " . $epc->getItemReference() . "\n";
+}
+```
+
+**Working with collections:**
+
+```php
+use KDuma\EpcTds\Epc\HasCompanyPrefixInterface;
+
+// Filter EPCs by company
+function filterByCompany(array $epcs, int $companyPrefix): array {
+    return array_filter($epcs, function(EpcInterface $epc) use ($companyPrefix) {
+        return $epc instanceof HasCompanyPrefixInterface
+            && $epc->getCompanyPrefix() === $companyPrefix;
+    });
+}
+
+// Update all filters in a batch
+function setAllFilters(array $epcs, int $filter): void {
+    foreach ($epcs as $epc) {
+        if ($epc instanceof HasFilterInterface) {
+            $epc->setFilter($filter);
+        }
+    }
+}
+```
+
+---
+
 ## EPC Types
 
 ### Common Methods
 
-All EPC types extend `AbstractEpc` and share these methods:
+All EPC types implement `EpcInterface` and extend `AbstractEpc`, providing these base methods:
+
+**From EpcInterface (all types):**
+
+| Method | Description |
+|--------|-------------|
+| `toTagURI()` | Returns the Tag URI representation |
+| `toIdURI()` | Returns the ID URI representation |
+| `clone()` | Creates a copy of the EPC object |
+| `getType()` | Returns the Type enum value |
+| `getTotalBits()` | Returns total bit length (96, 198, etc.) |
+| `getHeader()` | Returns the header value |
+
+**From AbstractEpc (all types):**
 
 | Method | Description |
 |--------|-------------|
 | `toHexString()` | Returns the EPC as a hexadecimal string |
-| `toTagURI()` | Returns the Tag URI representation |
-| `toIdURI()` | Returns the ID URI representation |
-| `toBarcode()` | Returns the GS1 barcode representation |
-| `clone()` | Creates a copy of the EPC object |
-| `getType()` | Returns the Type enum value |
+
+**From HasFilterInterface (all except GID-96):**
+
+| Method | Description |
+|--------|-------------|
 | `getFilter()` | Gets the filter value (0-7) |
 | `setFilter(int $value)` | Sets the filter value |
-| `getPartition()` | Gets the partition value |
+
+**From HasBarcodeInterface (all except GID-96):**
+
+| Method | Description |
+|--------|-------------|
+| `toBarcode()` | Returns the GS1 barcode representation |
+
+**From HasPartitionInterface (most GS1 types):**
+
+| Method | Description |
+|--------|-------------|
+| `getPartition()` | Gets the partition value (0-6) |
 | `setPartition(int $value)` | Sets the partition value |
 
 ---
@@ -148,6 +363,10 @@ All EPC types extend `AbstractEpc` and share these methods:
 ### SGTIN-96
 
 Serialized Global Trade Item Number (96-bit). Used for identifying trade items with a serial number.
+
+**Class**: `KDuma\EpcTds\Epc\Sgtin\Sgtin96`
+**Implements**: `SgtinInterface`
+**Extends**: `AbstractSgtin`
 
 **Typical Use**: Individual retail items, cases, pallets
 
@@ -198,6 +417,10 @@ $sgtin->setPartition(5)
 ### SGTIN-198
 
 Serialized Global Trade Item Number (198-bit). Extended version supporting alphanumeric serial numbers.
+
+**Class**: `KDuma\EpcTds\Epc\Sgtin\Sgtin198`
+**Implements**: `SgtinInterface`
+**Extends**: `AbstractSgtin`
 
 **Typical Use**: Items requiring alphanumeric serial numbers
 
@@ -373,6 +596,10 @@ echo $grai->getSerial();  // ABC123 (alphanumeric)
 ### GID-96
 
 General Identifier (96-bit). A simple EPC scheme for general use.
+
+**Class**: `KDuma\EpcTds\Epc\Gid\Gid96`
+**Implements**: `GidInterface`
+**Note**: Does not support filter or barcode (extends `AbstractEpc` directly, not `AbstractStandardEpc`)
 
 **Typical Use**: Items not requiring GS1 identifiers
 
@@ -598,6 +825,58 @@ echo $sgcn->toTagURI();   // urn:epc:tag:sgcn-96:3.0614141.12345.6789012345
 | `setSerial(int $value)` | Sets the serial number |
 | `getGcn()` | Gets the GCN with check digit |
 | `setGcn(string $gcn)` | Sets values from a GCN |
+
+---
+
+## Advanced Usage
+
+### Abstract Base Classes
+
+The library provides abstract base classes that contain shared logic for EPC variants:
+
+| Abstract Class | Purpose | Used By |
+|----------------|---------|---------|
+| `AbstractEpc` | Base for all EPCs, provides bit manipulation | All EPC types |
+| `AbstractStandardEpc` | Adds filter and barcode support | All GS1 types (not GID) |
+| `AbstractSgtin` | Shared SGTIN logic | Sgtin96, Sgtin198 |
+| `AbstractSgln` | Shared SGLN logic | Sgln96, Sgln195 |
+| `AbstractGrai` | Shared GRAI logic | Grai96, Grai170 |
+| `AbstractGiai` | Shared GIAI logic | Giai96, Giai202 |
+| `AbstractGdti` | Shared GDTI logic | Gdti96, Gdti174 |
+
+These abstract classes provide shared implementations of methods like `getCompanyPrefix()`, `setGtin()`, partition handling, and barcode generation. The concrete classes (96-bit vs extended variants) primarily differ in their serial number handling and total bit length.
+
+**Example: Understanding the hierarchy**
+
+```php
+// SGTIN-96 hierarchy:
+// Sgtin96 -> AbstractSgtin -> AbstractStandardEpc -> AbstractEpc -> BitArray
+//         implements SgtinInterface
+
+// GID-96 hierarchy (different - no filter/barcode):
+// Gid96 -> AbstractEpc -> BitArray
+//       implements GidInterface
+```
+
+### Type Inference with Interfaces
+
+Use interfaces for flexible, type-safe code:
+
+```php
+use KDuma\EpcTds\Epc\EpcInterface;
+use KDuma\EpcTds\Epc\Sgtin\SgtinInterface;
+
+// Accept any SGTIN variant (96 or 198-bit)
+function processSgtin(SgtinInterface $sgtin): void {
+    echo $sgtin->getGtin();
+    echo $sgtin->getSerial();  // int or string depending on variant
+}
+
+// Accept any EPC type
+function processAnyEpc(EpcInterface $epc): void {
+    echo $epc->toTagURI();
+}
+```
 
 ---
 
