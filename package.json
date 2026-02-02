@@ -11,6 +11,6 @@
     "better-sqlite3": "^12.2.0",
     "nuxt": "^4.1.0",
     "collect.js": "^4.36.1",
-    "locutus": "^2.0.32"
+    "locutus": "^2.0.39"
   }
 }
