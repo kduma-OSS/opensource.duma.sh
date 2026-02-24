@@ -3,11 +3,11 @@ title: ContactBridge
 description: Sync CRM contacts to your Android phone for seamless caller identification.
 type: app
 platform: Android
-active: true
+active: false
 github: https://github.com/kduma-OSS/MOBILE-contact-bridge
-featured: 2
-featured_description: Scanned PDF files splitter and sorter based on barcode
-featured_icon: fluent:person-sync-24-regular
+# featured: 2
+# featured_description: Sync CRM contacts to your Android phone for seamless caller identification
+# featured_icon: fluent:person-sync-24-regular
 ---
 
 ::u-button-group
