@@ -14,22 +14,69 @@ github: https://github.com/kduma-OSS/LV-eloquent-ulidable
 :u-button[Packagist]{icon="simple-icons:packagist" href="https://packagist.org/packages/kduma/eloquent-ulidable" target="_blank"}
 ::
 
+## Requirements
+
+- PHP `^8.3`
+- Laravel `^13.0`
+
+## Installation
+
+```bash
+composer require kduma/eloquent-ulidable
+```
+
 ## Setup
-Install it using composer
 
-    composer require kduma/eloquent-ulidable
+Add the `Ulidable` trait to your model and create a `ulid` column in your migration:
 
-## Prepare models
-Inside your model (not on top of file) add following lines:
+```php
+use KDuma\Eloquent\Ulidable;
 
-    use \KDuma\Eloquent\Ulidable;
+class Post extends Model
+{
+    use Ulidable;
+}
+```
 
-In database create `ulid` string field. If you use migrations, you can use following snippet:
+```php
+$table->ulid()->unique();
+```
 
-    $table->ulid()->unique();
+## Configuration
+
+### New style — PHP Attribute (recommended)
+
+```php
+use KDuma\Eloquent\Ulidable;
+use KDuma\Eloquent\Attributes\HasUlid;
+
+#[HasUlid(field: 'public_id', checkDuplicates: true)]
+class Post extends Model
+{
+    use Ulidable;
+}
+```
+
+`HasUlid` parameters: `field` (default: `'ulid'`), `checkDuplicates` (default: `false`).
+
+### Old style — model properties (deprecated)
+
+```php
+class Post extends Model
+{
+    use Ulidable;
+
+    protected string $ulid_field = 'public_id';         // ⚠️ deprecated
+    protected bool $check_for_ulid_duplicates = true;    // ⚠️ deprecated
+}
+```
 
 ## Usage
-By default, it generates slug on first save.
 
-- `$model->regenerateUlid()` - Generate new ulid. (Remember to save it by yourself)
-- `Model::whereUlid($ulid)->first()` - Find by ulid. (`whereUlid` is query scope)
+- ULID is auto-generated on `create` and `update` if field is `null`
+- `$model->regenerateUlid()` — manually regenerate (save afterwards)
+- `Model::whereUlid($ulid)` — query scope
+- `Model::byUlid($ulid)` — retrieve model by ULID
+- `$model->getUlidField()` — returns configured column name
+
+> **Note:** This package adds ULID as an *additional column* alongside the numeric `id`, unlike Laravel's built-in `HasUlids` which replaces the primary key.
