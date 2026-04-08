@@ -14,28 +14,61 @@ github: https://github.com/kduma-OSS/LV-eloquent-tokenable
 :u-button[Packagist]{icon="simple-icons:packagist" href="https://packagist.org/packages/kduma/eloquent-tokenable" target="_blank"}
 ::
 
+## Requirements
+
+- PHP `^8.3`
+- Laravel `^13.0`
+
+## Installation
+
+```bash
+composer require kduma/eloquent-tokenable
+```
+
 ## Setup
-Add the package to the require section of your composer.json and run `composer update`
 
-    "kduma/eloquent-tokenable": "^1.1"
+Add the `Tokenable` trait to your model:
 
-## Prepare models
-In your model add following lines:
+```php
+use KDuma\Eloquent\Tokenable;
 
-    use \KDuma\Eloquent\Tokenable;
-    protected $appends = array('token');
+class Order extends Model
+{
+    use Tokenable;
+}
+```
 
-Optionally you can add also:
+## Configuration
 
-- `protected $salt = 'SALT';`  
-  A salt for making hashes. Default is table name. This salt is added to your `APP_KEY`.
+### New style — PHP Attribute (recommended)
 
-- `protected $length = 10;`  
-  A salt length. Default is 10.
+```php
+use KDuma\Eloquent\Tokenable;
+use KDuma\Eloquent\Attributes\HasToken;
 
-- `protected $alphabet = 'qwertyuiopasdfghjklzxcvbnm1234567890';`  
-  A hash alphabet. Default is `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890`
+#[HasToken(length: 12, alphabet: 'abcdef1234567890')]
+class Order extends Model
+{
+    use Tokenable;
+}
+```
+
+`HasToken` parameters: `length` (default: `10`), `alphabet` (default: alphanumeric), `salt` (default: table name).
+
+### Old style — model properties (deprecated)
+
+```php
+class Order extends Model
+{
+    use Tokenable;
+
+    protected ?string $salt = 'SALT';       // ⚠️ deprecated
+    protected int $length = 10;             // ⚠️ deprecated
+    protected string $alphabet = 'abc...';  // ⚠️ deprecated
+}
+```
 
 ## Usage
-- `$model->token` - Generate tokens
-- `Model::whereToken($id)->first()` - Find by token. (`whereToken` is query scope)
+
+- `$model->token` — returns the HashID token
+- `Model::whereToken($token)` — query scope to find by token
