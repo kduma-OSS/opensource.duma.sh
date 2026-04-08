@@ -98,10 +98,10 @@
           {{ item.title }}
         </template>
         &nbsp;
-        <UBadge type="danger">{{ item.platform }}</UBadge>
+        <UBadge color="error">{{ item.platform }}</UBadge>
         <template v-for="platform in item.platforms">
           &nbsp;
-          <UBadge type="danger">{{ platform }}</UBadge>
+          <UBadge color="error">{{ platform }}</UBadge>
         </template>
         <template v-if="item.github">
           &nbsp;
@@ -121,8 +121,8 @@
 <script>
 
 import {collect} from "collect.js";
-import explode from "locutus/php/strings/explode";
-import array_slice from "locutus/php/array/array_slice";
+import { explode } from "locutus/php/strings/explode";
+import { array_slice } from "locutus/php/array/array_slice";
 
 export default {
   name: "ProjectsList",
