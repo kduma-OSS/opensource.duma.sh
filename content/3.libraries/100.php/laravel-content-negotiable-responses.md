@@ -1,6 +1,6 @@
 ---
 title: Content Negotiable Responses for Laravel
-description: This package makes it easy to aautomaticallly negotiate content based on the client's Accept header.
+description: This package makes it easy to automatically negotiate content based on the client's Accept header.
 type: library
 platform: Laravel
 github: https://github.com/kduma-OSS/LV-content-negotiable-responses
@@ -16,6 +16,12 @@ featured_icon: material-symbols:merge-type
 
 :u-button[Packagist]{icon="simple-icons:packagist" href="https://packagist.org/packages/kduma/content-negotiable-responses" target="_blank"}
 ::
+
+## Requirements
+
+- PHP `^8.3`
+- Laravel `^12.0 || ^13.0`
+- symfony/yaml `^7.0 || ^8.0`
 
 ## Installation
 
