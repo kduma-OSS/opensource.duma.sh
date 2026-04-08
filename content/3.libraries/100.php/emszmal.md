@@ -18,6 +18,11 @@ featured_icon: carbon:piggy-bank-slot
 :u-button[Packagist]{icon="simple-icons:packagist" href="https://packagist.org/packages/kduma/emszmal-api" target="_blank"}
 ::
 
+## Requirements
+
+- PHP `^8.3`
+- Laravel `^12.0 || ^13.0` (optional — also works as plain PHP)
+
 ## Install
 
 Via Composer
