@@ -15,6 +15,10 @@ github: https://github.com/kduma-OSS/PHP-LPD
 :u-button[Packagist]{icon="simple-icons:packagist" href="https://packagist.org/packages/kduma/lpd" target="_blank"}
 ::
 
+## Requirements
+
+- PHP `^8.3`
+
 ## Install
 
 Via Composer
@@ -44,8 +48,8 @@ $ composer require kduma/lpd
 For printing clear text use `TextJob` class:
 ``` php
 $job = new KDuma\LPD\Client\Jobs\TextJob("This is content!");
-$job->appdendContent("\n");
-$job->appdendContent("And this is second line.");
+$job->appendContent("\n");
+$job->appendContent("And this is second line.");
 ```
 
 #### File print job
