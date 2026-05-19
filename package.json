@@ -9,7 +9,7 @@
   "dependencies": {
     "docus": "^5.9.0",
     "better-sqlite3": "^12.8.0",
-    "nuxt": "^4.4.2",
+    "nuxt": "^4.4.6",
     "collect.js": "^4.36.1",
     "locutus": "^3.0.34"
   }
